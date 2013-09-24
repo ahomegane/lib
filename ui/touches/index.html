@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<title>lib.ui.touches.js</title>
+<meta name="description" content="" />
+<meta name="keywords" content="" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
+<meta name="format-detection" content="telephone=no" />
+
+<!--for this site-->
+<link rel="stylesheet" href="../../_resource/css/basic.css" media="all">
+<script src="http://code.jquery.com/jquery-git1.min.js"></script>
+
+</head>
+<body>
+<div id="container">
+<div id="contentsarea">
+<h1>lib.ui.touches.js</h1>
+<p>consoleを見てください。</p>
+<div class="target native">native: touches here!!</div>
+<div class="target jquery">jquery: touches here!!</div>
+</div>
+</div>
+
+<style>
+.target {
+  width: 500px;
+  height: 500px;
+  padding: 20px;
+  background: #dcdedf;
+  border-radius: 3px;
+  margin-bottom: 10px;
+}
+</style>
+
+<script src="./lib.ui.touches.js"></script>
+<script>
+var native = _l.ui.touches({
+  context: document.querySelectorAll('.target.native'),
+  mouse: true
+});
+native.bind({
+  touchstart: function(e, initial) {
+    console.log('******** start');
+    console.log(e);
+    // console.log('initial.x: ' + initial.x, 'initial.y: ' + initial.y);
+  },
+  touchmove: function(e, total, current, move, before) {
+    console.log('******** move');
+    // console.log('total.x: ' + total.x, 'total.y: ' + total.y);
+    // console.log('current.x: ' + current.x, 'current.y: ' + current.y);
+    // console.log('move.x: ' + move.x, 'move.y: ' + move.y);
+    // console.log('before.x: ' + before.x, 'before.y: ' + before.y);
+  },
+  touchend: function(e, total, current, move, touchTime) {
+    console.log('******** end');
+    console.log('total.x: ' + total.x, 'total.y: ' + total.y);
+    console.log('current.x: ' + current.x, 'current.y: ' + current.y);
+    console.log('move.x: ' + move.x, 'move.y: ' + move.y);
+    console.log('touchTime: ' + touchTime);
+  },
+  touchcancel: function(e, total, current, move, touchTime) {
+    console.log('******** cancel');
+    console.log('total.x: ' + total.x, 'total.y: ' + total.y);
+    console.log('current.x: ' + current.x, 'current.y: ' + current.y);
+    console.log('move.x: ' + move.x, 'move.y: ' + move.y);
+    console.log('touchTime: ' + touchTime);
+  }
+});
+
+var jquery = _l.ui.touches({
+  context: $('.target.jquery'),
+  mouse: true
+});
+jquery.bind({
+  touchstart: function(e, initial) {
+    console.log('******** start');
+    console.log(e);
+    // console.log('initial.x: ' + initial.x, 'initial.y: ' + initial.y);
+  },
+  touchmove: function(e, total, current, move, before) {
+    console.log('******** move');
+    // console.log('total.x: ' + total.x, 'total.y: ' + total.y);
+    // console.log('current.x: ' + current.x, 'current.y: ' + current.y);
+    // console.log('move.x: ' + move.x, 'move.y: ' + move.y);
+    // console.log('before.x: ' + before.x, 'before.y: ' + before.y);
+  },
+  touchend: function(e, total, current, move, touchTime) {
+    console.log('******** end');
+    console.log('total.x: ' + total.x, 'total.y: ' + total.y);
+    console.log('current.x: ' + current.x, 'current.y: ' + current.y);
+    console.log('move.x: ' + move.x, 'move.y: ' + move.y);
+    console.log('touchTime: ' + touchTime);
+  },
+  touchcancel: function(e, total, current, move, touchTime) {
+    console.log('******** cancel');
+    console.log('total.x: ' + total.x, 'total.y: ' + total.y);
+    console.log('current.x: ' + current.x, 'current.y: ' + current.y);
+    console.log('move.x: ' + move.x, 'move.y: ' + move.y);
+    console.log('touchTime: ' + touchTime);
+  }
+});
+
+setTimeout(function(argument) {
+  console.log('unbind');
+  native.unbind();
+  jquery.unbind();
+}, 5000);
+</script>
+</body>
+</html>

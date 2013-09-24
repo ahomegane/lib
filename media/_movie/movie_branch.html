@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<title>movie_branch</title>
+<meta name="description" content="" />
+<meta name="keywords" content="" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
+<meta name="format-detection" content="telephone=no" />
+
+<!--for this site-->
+<link href='http://fonts.googleapis.com/css?family=Ropa+Sans' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="../common/styles/basic.css" media="all">
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<!-- <script src="./js/cannyedge.js"></script> -->
+
+</head>
+<body>
+
+<div id="container">
+<div id="contentsarea">
+<h1>movie_branch</h1>
+
+<h2>video</h2>
+
+<div class="movie">
+  <video autobuffer>
+    <source src="h264.mp4"></source>
+    <source src="h264_legacy.mp4"></source>
+    <source src="theora.ogv"></source>
+    <p>videoタグに対応していません</p>
+  </video>
+  <ul class="branch_btns">
+    <li>yes</li>
+    <li>no</li>
+  </ul>
+  <ul class="play_btns">
+    <li>play</li>
+    <li>stop</li>
+  </ul>
+</div>
+
+<ul class="notes">
+  <li>・ie9, chrome, firefox, ipadで確認</li>
+  <li>・iphoneはfull screenになるため、動画のボタン制御はできない</li>
+</ul>
+
+<h2>canvas</h2>
+
+<ul class="movie_container clearfix">
+  <li>
+    <div class="movie">
+      <canvas></canvas>
+      <ul class="branch_btns">
+        <li>yes</li>
+        <li>no</li>
+      </ul>
+      <ul class="play_btns">
+        <li>play</li>
+        <li>stop</li>
+      </ul>
+    </div>
+  </li>
+  <li>
+    <ul class="movie_container clearfix">
+      <li>
+        <div class="movie">
+          <canvas></canvas>
+      </li>
+      <li>
+        <div class="movie">
+          <canvas></canvas>
+      </li>
+      <li>
+        <div class="movie">
+          <canvas></canvas>
+      </li>
+      <li>
+        <div class="movie">
+          <canvas></canvas>
+      </li>      
+    </ul>
+  </li>
+  <li>
+    <div class="movie">
+      <canvas></canvas>
+      <ul class="branch_btns">
+        <li>yes</li>
+        <li>no</li>
+      </ul>
+      <ul class="play_btns">
+        <li>play</li>
+        <li>stop</li>
+      </ul>
+    </div>
+  </li>
+  <li>
+    <div class="movie">
+      <canvas></canvas>
+      <ul class="branch_btns">
+        <li>yes</li>
+        <li>no</li>
+      </ul>
+      <ul class="play_btns">
+        <li>play</li>
+        <li>stop</li>
+      </ul>
+    </div>
+  </li>
+  <li>
+    <ul class="movie_container clearfix">
+      <li>
+        <div class="movie">
+          <canvas></canvas>
+      </li>
+      <li>
+        <div class="movie">
+          <canvas></canvas>
+      </li>
+      <li>
+        <div class="movie">
+          <canvas></canvas>
+      </li>
+      <li>
+        <div class="movie">
+          <canvas></canvas>
+      </li>      
+    </ul>
+  </li>
+  <li>
+    <div class="movie">
+      <canvas></canvas>
+      <ul class="branch_btns">
+        <li>yes</li>
+        <li>no</li>
+      </ul>
+      <ul class="play_btns">
+        <li>play</li>
+        <li>stop</li>
+      </ul>
+    </div>
+  </li>
+</ul>
+
+<ul class="notes">
+  <li>・ie9, chrome, firefoxで確認</li>
+</ul>
+
+<h2>youtube　annotation</h2>
+
+<div class="movie">
+  <iframe width="960" height="720" src="//www.youtube.com/embed/4z_16L1uEs4?rel=0" frameborder="0" allowfullscreen></iframe>
+</div>
+
+<ul class="notes">
+  <li>・ie9, chrome, firefoxで確認</li>
+  <li>・iphone, ipadではアノテーションは機能せず</li>
+</ul>
+
+</div>
+</div>
+
+<style>
+body {
+  background: #222222;
+  font-family: 'Ropa Sans', cursive;
+}
+img {
+  display: block;
+}
+.movie {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+}
+.movie video,
+.movie canvas,
+.movie iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.movie .play_btns,
+.movie .branch_btns {
+  position: absolute;
+  top: 50%;
+  left: -120px;
+  margin-top: -64px;
+}
+.movie .play_btns.show {
+  left: 0;
+}
+.movie .play_btns li,
+.movie .branch_btns li {
+  cursor: pointer;
+  padding: 10px 40px;
+  font-family: 'Ropa Sans', cursive;
+  font-size: 20px;
+  font-weight: bold;
+  border: 1px solid #222222;
+  margin-bottom: 20px;
+  width: 30px;
+}
+.movie .play_btns li {
+  border-left: none;
+}
+.movie .play_btns.transition {
+  -webkit-transition: left 200ms ease-out;
+  -moz-transition: left 200ms ease-out;
+  -ms-transition: left 200ms ease-out;
+  transition: left 200ms ease-out;
+}
+.movie .branch_btns {
+  left: auto;
+  right: -120px;
+}
+.movie .branch_btns li {
+  border-right: none;
+}
+.movie .branch_btns.show {
+  right: 0;
+}
+.movie .branch_btns.transition {
+  -webkit-transition: right 200ms ease-out;
+  -moz-transition: right 200ms ease-out;
+  -ms-transition: right 200ms ease-out;
+  transition: right 200ms ease-out;
+}
+.movie_container > li {
+  width: 50%;
+  float: left;
+}
+.movie_container > li:nth-child(odd) {
+  clear: left;
+}
+</style>
+
+<script>
+(function() {
+  var $video = $('.movie video'),
+      video = $video[0],
+      $playBtns = $('.movie .play_btns'),
+      $playBtn = $('.movie .play_btns li'),
+      $branchBtns = $('.movie .branch_btns'),
+      $branchBtn = $('.movie .branch_btns li'),
+      $start = $playBtn.filter(function(i) { return i % 2 == 0 }),
+      $stop = $playBtn.filter(function(i) { return i % 2 == 1 }),
+      $yes = $branchBtn.filter(function(i) { return i % 2 == 0 }),
+      $no = $branchBtn.filter(function(i) { return i % 2 == 1 });      
+
+  var startTime, duration, isCanPlay;
+
+  console.dir(video);
+
+  setTimeout(function() {
+    $playBtns.addClass('transition').addClass('show');
+  }, 600);
+  $branchBtns.addClass('transition');
+
+  $start.on('click', function(e) {
+    e.preventDefault();
+    if (video.paused) {
+      load(function() {
+        video.play();
+        startTime = +new Date;
+      });      
+    }
+  });
+
+  $stop.on('click', function(e) {
+    e.preventDefault();
+    video.pause();
+  });
+
+  $yes.on('click', function(e) {
+    e.preventDefault();
+    if (video.paused) {
+      video.currentTime = 37;
+      video.play();
+      $branchBtns.removeClass('show');
+    }
+  });
+
+  $no.on('click', function(e) {
+    e.preventDefault();
+    if (video.paused) {
+      video.currentTime = 42.6;
+      video.play();
+      $branchBtns.removeClass('show');
+    }
+  });
+
+  function load(callback) {
+    var listener = function() {
+      isCanPlay = true;
+      if(typeof callback == 'function') callback();
+      video.removeEventListener('canplay', listener);
+    }
+
+    if (isCanPlay) {
+      if(typeof callback == 'function') callback();
+      return;
+    }
+    video.addEventListener('canplay', listener, false);
+    video.load();
+  }
+
+  var timer = setInterval(function() {
+    if (!video.paused) {
+      duration = new Date - startTime;
+      if (duration > 3000) {
+        $branchBtns.addClass('show');
+        video.pause();
+        clearInterval(timer);
+      }
+    }
+  }, 100);
+
+  var $canvas = $('.movie canvas'),
+      canvas = (function() {
+        var a = [];
+        $canvas.each(function() {
+          a.push({ el: $(this)[0], ctx: $(this)[0].getContext('2d') });
+        });
+        return a;
+      })();
+  console.log(canvas)
+
+  for (var i = 0, l = canvas.length; i < l; i++) {
+    canvas[i].el.width = $video.width();
+    canvas[i].el.height = $video.height();
+  }
+  
+  var timerCanvas = setInterval(function() {
+    for (var i = 0, l = canvas.length; i < l; i++) {
+      canvas[i].ctx.drawImage(video, 0, 0);
+      // if (i == 3) {
+      //   var imageData = doCanny(canvas[i].el, canvas[i].ctx);
+      //   canvas[i].ctx.putImageData(imageData, 0, 0);
+      // }
+    }    
+  }, 30);
+
+  // function doCanny(canvas, ctx) {
+      
+  //   var w = canvas.width, 
+  //       h = canvas.height;
+      
+  //   var imageData = ctx.getImageData(0,0,w,h);
+
+  //   new CannyEdgeDetecotor({
+  //     imageData: imageData,
+  //     //以下省略可
+  //     GaussianSiguma: 4,
+  //     GaussianSize: 5,
+  //     hysteresisHeigh: 100,
+  //     hysteresisLow: 30,
+  //     isConvertGrayScale: true,
+  //     isApplyGaussianFilter: true,
+  //     isApplySobelFilter: true,
+  //     isHysteresisThreshold: true
+  //   });
+    
+  //   return imageData;
+
+  // }
+
+})();
+</script>
+
+</body>
+</html>

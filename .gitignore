@@ -1,0 +1,8 @@
+*/.DS_Store
+*/Thumbs.db
+*.ogg
+*.wav
+*.mp3
+*.mp4
+*.ogv
+/sftp-config.json

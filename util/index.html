@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<title>lib.util.js</title>
+<meta name="description" content="" />
+<meta name="keywords" content="" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
+<meta name="format-detection" content="telephone=no" />
+
+<!--for this site-->
+<link rel="stylesheet" href="../_resource/css/basic.css" media="all">
+<script src="http://code.jquery.com/jquery-git1.min.js"></script>
+
+</head>
+<body>
+<div id="container">
+<div id="contentsarea">
+<h1>lib.util.js</h1>
+<p>consoleを見てください。</p>
+</div>
+</div>
+
+<script src="./lib.util.js"></script>
+<script>
+
+/*_l.util.toArray*/
+function test() {
+  var a = arguments;
+  var b = _l.util.toArray(arguments);
+  console.dir(a);
+  console.dir(b);
+}
+test('a', 1, 2);
+
+/*_l.util.loopTimer*/
+var testTimer = _l.util.loopTimer(function() {
+  console.log('loopTimer');
+}, 400);
+
+document.querySelector('h1').addEventListener('click', function() {
+  console.log('stop')
+  testTimer.stop();
+});
+
+</script>
+</body>
+</html>

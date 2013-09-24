@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<title>lib.debug.dom.js</title>
+<meta name="description" content="" />
+<meta name="keywords" content="" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
+<meta name="format-detection" content="telephone=no" />
+
+<!--for this site-->
+<link rel="stylesheet" href="../../_resource/css/basic.css" media="all">
+<script src="http://code.jquery.com/jquery-git1.min.js"></script>
+
+<style>
+#sample ul li {
+  width: 200px;
+  height: 200px;
+  padding: 20px;
+  margin: 10px; 
+  background: #dcdedf;
+  border-radius: 3px;
+  float: left;
+}
+</style>
+
+</head>
+<body>
+<div id="container">
+<div id="contentsarea">
+<h1>lib.debug.dom.js</h1>
+<p>consoleを見てください。</p>
+
+<div id="sample">
+  <ul>
+    <li>1</li>
+    <li style="color:red;">2</li>
+    <li>3</li>
+    <li style="color:blue;">4</li>
+    <li>5</li>
+    <li>6</li>
+  </ul>
+</sample>
+
+</div>
+</div>
+
+<script src="./lib.debug.dom.js"></script>
+<script>
+  _l.debug.dom.member($('#sample'));
+  _l.debug.dom.cssStyle('margin');
+  _l.debug.dom.attrStyle('color');
+</script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<title>lib.media.cannyedge.js</title>
+<meta name="description" content="" />
+<meta name="keywords" content="" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
+<meta name="format-detection" content="telephone=no" />
+
+<!--for this site-->
+<link rel="stylesheet" href="../../_resource/css/basic.css" media="all">
+<script src="http://code.jquery.com/jquery-git1.min.js"></script>
+
+</head>
+<body>
+<div id="container">
+<div id="contentsarea">
+<h1>lib.media.cannyedge.js</h1>
+<p>consoleを見てください。</p>
+</div>
+</div>
+
+<script src="./lib.media.cannyedge.js"></script>
+<script>
+  
+  window.addEventListener('load', function() {    
+    
+    var windowW = window.innerWidth, windowH = window.innerHeight;
+    
+    var canvas = document.createElement('canvas');
+    var ctx = canvas.getContext('2d');
+    var img = document.createElement('img');
+  
+    //sample pic
+    img.src = './sample.jpg';
+
+    img.onload = function() {
+      
+      var w = img.width, 
+          h = img.height;
+      canvas.width = w;
+      canvas.height = h;
+      
+      ctx.drawImage(img,0,0,w,h);
+      var imageData = ctx.getImageData(0,0,w,h);
+      ctx.clearRect(0,0,w,h);
+      
+      _l.media.cannyedge({
+        imageData: imageData,
+        //以下省略可
+        GaussianSiguma: 4,
+        GaussianSize: 5,
+        hysteresisHeigh: 100,
+        hysteresisLow: 30,
+        isConvertGrayScale: true,
+        isApplyGaussianFilter: true,
+        isApplySobelFilter: true,
+        isHysteresisThreshold: true
+      });
+      
+      ctx.putImageData(imageData,0,0);      
+      document.getElementById('contentsarea').appendChild(img);
+      document.getElementById('contentsarea').appendChild(canvas);
+    }
+
+  });
+  
+</script>
+</body>
+</html>

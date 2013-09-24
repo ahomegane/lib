@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<title>lib.status.atmedia.js</title>
+<meta name="description" content="" />
+<meta name="keywords" content="" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
+<meta name="format-detection" content="telephone=no" />
+
+<!--for this site-->
+<link rel="stylesheet" href="../../_resource/css/basic.css" media="all">
+<script src="http://code.jquery.com/jquery-git1.min.js"></script>
+
+</head>
+<body>
+<div id="container">
+<div id="contentsarea">
+<h1>lib.status.atmedia.js</h1>
+<p>consoleを見てください。</p>
+<div id="device"></div>
+</div>
+</div>
+
+<style>
+@media screen and (min-width:787px) {/*large*/
+  #_device {
+    position: static;
+    display: none;
+  }
+}
+@media screen and (min-width:480px) and (max-width:786px) {/*medium*/
+  #_device {
+    position: relative;
+    display: none;
+  }
+}
+@media screen and (max-width:479px) {/*small*/
+  #_device {
+    position: absolute;
+    display: none;
+  }
+}
+</style>
+
+<script src="./lib.status.atmedia.js"></script>
+<script>
+  var atmedia = _l.status.atmedia({
+    deviceStyle: {
+      id: '_device',
+      style: {
+        large: {
+          prop: 'position',
+          val: 'static'
+        },
+        medium: {
+          prop: 'position',
+          val: 'relative'
+        },
+        small: {
+          prop: 'position',
+          val: 'absolute'
+        }
+      }
+    }
+  });
+
+  atmedia.onchange(function(args) {
+    console.log('change');
+
+  }).onchange({
+    onLarge: function() {
+      console.log('onLarge');
+      $('body').css('background', '#41ab6b');
+    },
+    offLarge: function() {
+      console.log('offLarge');
+    },
+    onLargeResize: function() {
+      console.log('onLargeResize');
+    },  
+    onMedium: function() {
+      console.log('onMedium');
+      $('body').css('background', '#0e83cd');
+    },
+    offMedium: function() {
+      console.log('offMedium');
+    },
+    onMediumResize: function() {
+      console.log('onMediumResize');
+    },
+    onSmall: function() {
+      console.log('onSmall');
+      $('body').css('background', '#d54f30');
+    },
+    offSmall: function() {
+      console.log('offSmall');
+    },
+    onSmallResize: function() {
+      console.log('onSmallResize');
+    }
+  });
+</script>
+</body>
+</html>

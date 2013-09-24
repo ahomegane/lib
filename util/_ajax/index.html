@@ -1,0 +1,237 @@
+<!doctype html>
+<head>
+<meta charset="utf-8">
+<title>lab.ahomegane.com</title>
+<meta name="description" content="" />
+<meta name="keywords" content="" />
+
+<!--for this site-->
+<!--[if lte IE 8 ]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+
+<style>
+body, h1, h2, h3 ,p ,a {
+  margin: 0;
+  padding: 0;
+  font-size: 100%;
+  font-family: "Lucida Sans",arial,"ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro",sans-serif;
+}
+.container {
+  width:800px;
+  margin:30px auto;
+}
+h2 {
+  font-size: 150%;
+  margin-top: 30px;
+}
+.data_append {
+  margin-top: 20px;
+  border: 2px solid #555;
+  padding:20px; 
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<h1>ajaxでデータを取得するテスト</h1>
+
+<!-- //////////////////////////////////////////////////////////////////// -->
+
+<h2>$.ajaxでhtml</h2>
+
+<script>
+$(function(){
+
+  $.ajax({
+    url: './request_data/data.html',
+    dataType: 'html',
+    success: ajaxSuccess
+  });
+  function ajaxSuccess(data) {
+    var filteredData = $(data).find('#data');
+    $('#data_append-html').append(filteredData);
+  }
+  
+});
+</script>
+
+<div class="data_append" id="data_append-html">
+</div>
+
+
+<!-- //////////////////////////////////////////////////////////////////// -->
+
+<h2>naitiveでhtml</h2>
+
+<script>
+
+$(function(){
+
+  function getXhr() {
+    var req;
+    try {
+      req = new XMLHttpRequest(); //gteIE7/other browser
+    } catch(e) {
+      req = new ActiveXObject('Msxml2.XMLHTTP'); //IE6
+    }
+    return req;
+  }
+
+  function asyncGetData() {
+    var req = getXhr();
+    req.onreadystatechange = function() {
+      if(req.readyState == 4) {
+        if(req.status == 200) {
+          //console.log('status: ' + req.status);
+          //console.log('statusText: ' + req.statusText);
+          var data = req.responseText;
+          //var data = req.responseXML;
+          var doc = htmlTextParser(data);
+          
+          try {
+            var filteredData = doc.getElementById('data');
+            document.getElementById('data_append-html2').appendChild(filteredData);
+          } catch(e) {}
+        
+        } else {
+          //応答エラー
+        }
+      } else {
+        //通信中
+      }
+    }
+
+    //https://developer.mozilla.org/ja/docs/DOMParser
+    function htmlTextParser(htmlText) {
+      try {
+        // Firefox/Opera/IE throw errors on unsupported types
+        (new DOMParser);  
+        // WebKit returns null on unsupported types
+        if((new DOMParser).parseFromString('', 'text/html')) {
+          // text/html parsing is natively supported
+          return (new DOMParser).parseFromString(htmlText, 'text/html');
+        }
+      } catch(e) {}
+      
+      //console.log('unsupported');
+
+      //htmlDocumentの生成
+      try {
+        var doc = document.implementation.createHTMLDocument('');
+        doc.body.innerHTML = htmlText;
+      } catch(e) {//lteIE8
+        
+        //この後dom操作を行う場合　、lteIE8　でどうすればよいかわからない。
+
+      }
+      return doc;
+    }
+
+    req.open('GET', './request_data/data.html', true);
+    req.send(null);
+  }
+
+  asyncGetData();
+
+});
+</script>
+
+<div class="data_append" id="data_append-html2">
+</div>
+
+
+
+<!-- //////////////////////////////////////////////////////////////////// -->
+
+<h2>$.ajaxでjson</h2>
+
+<script>
+$(function(){
+
+  $.ajax({
+    url: './request_data/data.json',
+    dataType: 'json',
+    success: ajaxSuccess,
+    error: function(XMLHttpRequest, textStatus, errorThrown) {console.log(textStatus)}
+  });
+  function ajaxSuccess(data) {
+    var filteredData = data['h3'];
+    $('#data_append-json').append(filteredData);
+  }
+
+});
+</script>
+
+<div class="data_append" id="data_append-json">
+</div>
+
+<!-- //////////////////////////////////////////////////////////////////// -->
+
+<h2>naitiveでhtml</h2>
+
+<script>
+
+$(function(){
+
+  function getXhr() {
+    var req;
+    try {
+      req = new XMLHttpRequest(); //gteIE7/other browser
+    } catch(e) {
+      req = new ActiveXObject('Msxml2.XMLHTTP'); //IE6
+    }
+    return req;
+  }
+
+  function asyncGetData() {
+    var req = getXhr();
+    req.onreadystatechange = function() {
+      if(req.readyState == 4) {
+        if(req.status == 200) {
+          //console.log('status: ' + req.status);
+          //console.log('statusText: ' + req.statusText);
+          var data = req.responseText;
+          //var data = req.responseXML;
+          var json = jsonParser(data);
+          document.getElementById('data_append-json2').innerHTML = json['h3'];
+        
+        } else {
+          //応答エラー
+        }
+      } else {
+        //通信中
+      }
+    }
+
+    function jsonParser(text) {
+      var json;
+      try {//gteIe8
+        json = JSON.parse(text);
+      } catch(e) {
+        json = eval('(' + text + ')');
+      }
+      return json;
+    }
+
+    req.open('GET', './request_data/data.json', true);
+    req.send(null);
+  }
+
+  asyncGetData();
+
+});
+</script>
+
+<div class="data_append" id="data_append-json2">
+</div>
+
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<title>lib.media.audio.js</title>
+<meta name="description" content="" />
+<meta name="keywords" content="" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
+<meta name="format-detection" content="telephone=no" />
+
+<!--for this site-->
+<link rel="stylesheet" href="../../_resource/css/basic.css" media="all">
+<script src="http://code.jquery.com/jquery-git1.min.js"></script>
+
+</head>
+<body>
+<div id="container">
+<div id="contentsarea">
+<h1>lib.media.audio.js</h1>
+<p>click</p>
+</div>
+</div>
+
+<script src="../../env/lib.env.js"></script>
+<script src="./lib.media.audio.js"></script>
+<script>
+  
+  var trackList = {
+    bell: {/* 着信音 */
+      startTime: 0,
+      endTime: 3.456,
+      duration: 3.456
+    },
+    gyao: {/* gyaoへ遷移する直前 */
+      startTime: 4.724,
+      endTime: 9.772,
+      duration: 5.048
+    },
+    iyayo: {/* ※印を184回クリックしたとき */
+      startTime: 11.803,
+      endTime: 38,
+      duration: 26.197
+    },
+    fake1: {/* フェイクボタン1回目 */
+      startTime: 39,
+      endTime: 41.872,
+      duration: 2.872
+    },
+    fake2: {/* フェイクボタン2回目 */
+      startTime: 43.532,
+      endTime: 47.284,
+      duration: 3.752
+    },
+    fake3: {/* フェイクボタン3回目 */
+      startTime: 49,
+      endTime: 51.36,
+      duration: 2.36
+    },
+    fake4: {/* フェイクボタン4回目 */
+      startTime: 53.088,
+      endTime: 56.376,
+      duration: 3.288
+    },
+    fake5: {/* フェイクボタン5回目 */
+      startTime: 58.077,
+      endTime: 59.608,
+      duration: 1.531
+    },
+    opening1: {/* 朝 5:00-11:59 */
+      startTime: 61.103,
+      endTime: 63,
+      duration: 1.897
+    },
+    opening2: {/* 昼 12:00-17:59 */
+      startTime: 64.296,
+      endTime: 66.278,
+      duration: 1.982
+    },
+    opening3: {/* 夜 18:00-20:59 */
+      startTime: 67.516,
+      endTime: 69.4,
+      duration: 1.884
+    },
+    opening4: {/* 深夜 21:00-4:59 */
+      startTime: 70.332,
+      endTime: 73.317,
+      duration: 2.985
+    },
+    main: {/* 番号案内 all */
+      startTime: 74.748,
+      endTime: 182.136,
+      duration: 107.388
+    },
+    main0: {/* 番号案内 0 */
+      startTime: 74.748,
+      endTime: 86.104,
+      duration: 11.356
+    },
+    main1: {/* 番号案内 1 */
+      startTime: 88.488,
+      endTime: 93.46,
+      duration: 4.971
+    },
+    main2: {/* 番号案内 2 */
+      startTime: 95.88,
+      endTime: 100.976,
+      duration: 5.096
+    },
+    main3: {/* 番号案内 3 */
+      startTime: 103.372,
+      endTime: 108.017,
+      duration: 4.645
+    },
+    main4: {/* 番号案内 4 */
+      startTime: 110.404,
+      endTime: 120.972,
+      duration: 10.568
+    },
+    main5: {/* 番号案内 5 */
+      startTime: 123.308,
+      endTime: 127.968,
+      duration: 4.66
+    },
+    main6: {/* 番号案内 6 */
+      startTime: 130.344,
+      endTime: 143.332,
+      duration: 12.988
+    },
+    main7: {/* 番号案内 7 */
+      startTime: 145.68,
+      endTime: 149.22,
+      duration: 3.539
+    },
+    main8: {/* 番号案内 8 */
+      startTime: 151.581,
+      endTime: 158.236,
+      duration: 6.655
+    },
+    main12: {/* 番号案内 # */
+      startTime: 160.596,
+      endTime: 164.192,
+      duration: 3.596
+    },
+    main10: {/* 番号案内 * */
+      startTime: 165.304,
+      endTime: 171.224,
+      duration: 5.919
+    },
+    main13: {/* 番号案内 締めのあいさつ */
+      startTime: 172.792,
+      endTime: 182.136,
+      duration: 9.343
+    }
+  };
+
+  var audio = _l.media.audio('./voice', trackList);
+
+  if (! audio.canAudio) {
+    audio.fallback();
+    return false;
+  }
+
+  var count = 0;
+  $('p').on('click', function(e) {
+    e.preventDefault();
+    count++;
+    audio.load(function() {
+      if (count < 2) {
+        audio.startLoop(audio.trackList.bell.startTime, audio.trackList.bell.endTime);
+      } else if (count < 3) {
+        audio.stopLoop();
+        audio.seek('fake4');
+      } else {
+        audio.pause();
+      }
+    });
+  });
+  
+  audio.timeupdate(function() {
+    console.log('timeupdate');
+  });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<title>lib.ui.easing.js</title>
+<meta name="description" content="" />
+<meta name="keywords" content="" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
+<meta name="format-detection" content="telephone=no" />
+
+<!--for this site-->
+<link rel="stylesheet" href="../../_resource/css/basic.css" media="all">
+<script src="http://code.jquery.com/jquery-git1.min.js"></script>
+
+</head>
+<body>
+<div id="container">
+<div id="contentsarea">
+<h1>lib.ui.easing.js</h1>
+<p>consoleを見てください。</p>
+</div>
+</div>
+
+<script src="./lib.ui.easing.js"></script>
+<script src="../../util/lib.util.js"></script>
+<script>
+  (function animation(options) {
+    options = options || {};
+    var start = +new Date;
+    var t,
+        b = +$('p').css('margin-top').replace('px', ''),
+        c = 500 - b,
+        d = 1000;
+    function render() {
+      t = +new Date - start;
+      v = _l.easing.easeOutQuart(t, b, c, d);
+      $('p').css('margin-top', v);
+      if (t < d) {
+        requestAnimationFrame(render);
+      } else {
+        console.log('end');
+      }
+    };
+    requestAnimationFrame(render);
+  })();
+</script>
+</body>
+</html>

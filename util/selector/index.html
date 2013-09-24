@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<title>lib.util.selector.js</title>
+<meta name="description" content="" />
+<meta name="keywords" content="" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
+<meta name="format-detection" content="telephone=no" />
+
+<!--for this site-->
+<link rel="stylesheet" href="../../_resource/css/basic.css" media="all">
+<script src="http://code.jquery.com/jquery-git1.min.js"></script>
+
+</head>
+<body>
+<div id="container">
+<div id="contentsarea">
+<h1>lib.util.selector.js</h1>
+<p>consoleを見てください。</p>
+<p>mouseover</p>
+</div>
+</div>
+
+<script src="../lib.util.js"></script>
+<script src="../event/lib.util.event.js"></script>
+<script src="./lib.util.selector.js"></script>
+<script>
+  
+  _l.util.selector('h1')[0][0].style.color = 'red';
+  
+  _l.util.selector('p').on('mouseover', function(e) {
+    console.log(e);
+    console.log('mouseover');
+  });
+
+  _l.util.selector('div').each(function() {
+    console.log(this);
+  });
+  
+</script>
+</body>
+</html>
