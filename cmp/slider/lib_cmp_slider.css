@@ -48,7 +48,6 @@
   pointer-events: none;
 }
 .slider .images li.center {
-  z-index: 1000;
 }
 .slider .images li.center a {
   pointer-events: auto;
