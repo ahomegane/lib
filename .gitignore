@@ -6,3 +6,4 @@
 *.mp4
 *.ogv
 /sftp-config.json
+*/syntaxhighlighter
