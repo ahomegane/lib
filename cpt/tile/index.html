@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<title>lib.cpt.tile.js</title>
+<meta name="description" content="" />
+<meta name="keywords" content="" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
+<meta name="format-detection" content="telephone=no" />
+
+<!--for this site-->
+<link rel="stylesheet" href="../../_resource/css/basic.css" media="all">
+<script src="http://code.jquery.com/jquery-git1.min.js"></script>
+
+<style>
+.tile {
+  font-size: 40px;
+}
+.tile li {
+  background: #dcdedf;
+  border-radius: 3px;
+}
+.tile li.w100 {
+  width: 100px;
+}
+.tile li.w200 {
+  width: 200px;
+}
+.tile li.w300 {
+  width: 300px;
+}
+.tile li.w400 {
+  width: 400px;
+}
+.tile li.w500 {
+  width: 500px;
+}
+.tile li.w600 {
+  width: 600px;
+}
+.tile li.h100 {
+  height: 100px;
+}
+.tile li.h200 {
+  height: 200px;
+}
+.tile li.h300 {
+  height: 300px;
+}
+.tile li.h400 {
+  height: 400px;
+}
+.tile li.h500 {
+  height: 500px;
+}
+.tile li.h600 {
+  height: 600px;
+}
+</style>
+
+</head>
+<body>
+<div id="container">
+<div id="contentsarea">
+<h1>lib.cpt.tile.js</h1>
+
+<ul class="tile">
+  <li class="w100 h200">
+    1
+  </li>
+  <li class="w200 h200">
+    2
+  </li>
+  <li class="w300 h400 tile-left">
+    3 left
+  </li>
+  <li class="w300 h500 tile-left">
+    4 left
+  </li>
+  <li class="w200 h200 tile-right">
+    5 right
+  </li>
+  <li class="w100 h200 tile-right">
+    6 right
+  </li>
+  <li class="w400 h300">
+    7
+  </li>
+  <li class="w600 h200">
+    8
+  </li>
+</ul>
+
+</div>
+</div>
+
+<script src="./lib.cpt.tile.js"></script>
+<script>
+  _l.cpt.tile($('.tile'));
+</script>
+
+</body>
+</html>

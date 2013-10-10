@@ -66,7 +66,7 @@
       addTransition: function(options) {
         var options = options || {};
         
-        //ease: linear/ease-in/ease-out/ease-in-out/cubic-bezier(num, num, num, num)
+        //ease: linear/ease/ease-in/ease-out/ease-in-out/cubic-bezier(num, num, num, num)
         var target = options.target || 'all',
             time = options.time || 400,
             ease = options.ease || 'linear',

@@ -1,0 +1,17 @@
+@charset "utf-8";
+
+#contentsarea {
+  max-width: none;
+  padding-left: 40px;
+  padding-right: 40px;
+  overflow: hidden;
+}
+p {
+  padding-top: 0;
+}
+.slider {
+  border: 1px solid #eaeaea;
+}
+#container .syntaxhighlighter {
+  margin: 2em 0 2em 0 !important;
+}

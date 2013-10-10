@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<title>slider</title>
+<meta name="description" content="" />
+<meta name="keywords" content="" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<!-- <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" /> -->
+<meta name="format-detection" content="telephone=no" />
+
+<!--for this site-->
+<link href='http://fonts.googleapis.com/css?family=Ropa+Sans' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="../../_resource/css/basic.css" media="all">
+<link rel="stylesheet" href="./local.css" media="all">
+
+<!-- syntaxhighlighter -->
+<script src="../../_resource/syntaxhighlighter/scripts/shCore.js"></script>
+<script src="../../_resource/syntaxhighlighter/scripts/shBrushJScript.js"></script>
+<script src="../../_resource/syntaxhighlighter/scripts/shBrushXml.js"></script>
+<script src="../../_resource/syntaxhighlighter/scripts/shBrushCss.js"></script>
+<link  rel="stylesheet" href="../../_resource/syntaxhighlighter/styles/shCore.css"/>
+<link  rel="stylesheet" href="../../_resource/syntaxhighlighter/styles/shThemeEclipse.css"/>
+<script>SyntaxHighlighter.all();</script>
+<!-- /syntaxhighlighter -->
+
+<!-- slider -->
+<link rel="stylesheet" href="./lib-cpt-slider.css" media="all">
+<style>
+.sample_small .slider .main {
+  height: 300px;
+}
+.sample_small .bullet {
+  top: 250px;
+}
+.sample_small .slider .images ul {
+  margin-top: -62.5px;
+}
+</style>
+<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+<script src="../../env/lib.env.js"></script>
+<script src="../../ui/css3/lib.ui.css3.js"></script>
+<script src="../../ui/touches/lib.ui.touches.js"></script>
+<script src="../../media/imageloader/lib.media.imageloader.js"></script>
+<script src="./lib.cpt.slider.js"></script>
+<!-- /slider -->
+
+</head>
+<body>
+<div id="container"><div id="contentsarea">
+
+<h1>Slider</h1>
+<p class="update">2013.09.30</p>
+
+<p>CSS3 translate / transition で動くスライダー</p>
+
+<h2>Browser / Device</h2>
+<p>iPhone / Android (3以上?) / PC ie以外</p>
+
+
+<!-- /////////////////////////////////////////////////////////////////////////////////////////////////// -->
+<div class="outline sample_01">
+  <h2>モード1：　CoverFlow</h2>  
+
+  <div class="slider">
+    <div class="main">
+      <div class="images">
+        <ul>
+          <li><a href=""><img src="./img/01/01.png" alt="" width="250"></a>1</li>
+          <li><a href=""><img src="./img/01/02.png" alt="" width="250"></a>2</li>
+          <li><a href=""><img src="./img/01/03.png" alt="" width="250"></a>3</li>
+          <li><a href=""><img src="./img/01/04.png" alt="" width="250"></a>4</li>         
+          <li><a href=""><img src="./img/01/05.png" alt="" width="250"></a>5</li>
+          <li><a href=""><img src="./img/01/06.png" alt="" width="250"></a>6</li>                
+          <li><a href=""><img src="./img/01/07.png" alt="" width="250"></a>7</li>                  
+          <li><a href=""><img src="./img/01/08.png" alt="" width="250"></a>8</li>
+          <li><a href=""><img src="./img/01/09.png" alt="" width="250"></a>9</li>
+          <li><a href=""><img src="./img/01/10.png" alt="" width="250"></a>10</li>
+          <li><a href=""><img src="./img/01/11.png" alt="" width="250"></a>11</li>
+          <li><a href=""><img src="./img/01/12.png" alt="" width="250"></a>12</li>
+          <li><a href=""><img src="./img/01/13.png" alt="" width="250"></a>13</li>
+          <li><a href=""><img src="./img/01/14.png" alt="" width="250"></a>14</li>         
+          <li><a href=""><img src="./img/01/15.png" alt="" width="250"></a>15</li>
+          <li><a href=""><img src="./img/01/16.png" alt="" width="250"></a>16</li>
+        </ul>
+      </div><!-- /.images -->
+      <div class="bullet">
+        <ul>
+          <li><span class="number"></span></li>
+        </ul>
+      </div><!-- /.bullet -->
+      <div class="mask_left"></div>
+      <div class="mask_right"></div>
+      <div class="prev"><a href="#">prev</a></div>
+      <div class="next"><a href="#">next</a></div>            
+    </div><!-- /.main -->
+    <div class="loading">
+      <div class="progress"></div>
+    </div><!-- /.loading -->
+  </div><!-- /.slider -->
+
+<script>
+;(function() {
+  // optionの設定
+  var options = {
+    context: $('.sample_01 .slider'),
+    resize: true,
+    mode: {
+      coverFlow: {
+        detect: (function() {
+          return true;
+        })()
+      }
+    }
+  };
+
+  //loading
+  var $slider = $('.sample_01 .slider'),
+      $frame = $slider.find('.images'),
+      $loading = $slider.find('.loading'),
+      $progress = $loading.find('.progress');
+
+  var progressWidth = 300;
+  $progress.width(0);
+
+  options.loading = true;
+  options.loadingMinTime = 400;
+  options.loadingStart = function() {
+  }
+  options.loadingProgress = function(progress, all) {
+    // console.log((progress / all * 100) + '%');
+    $progress.width( progressWidth * progress / all);
+  }
+  options.loadingEnd = function() {
+    $loading.delay(400).fadeOut(600);
+  }
+
+  _l.cpt.slider(options);
+})();
+</script>
+
+  <h3>mode option</h3>
+
+  <pre class="brush: js;">
+  /* js */
+  
+  var options = {
+    mode: {
+      coverFlow: {
+        detect: (function() {
+          return true; // ブラウザ分岐など振り分け可能  
+        })(),
+        animation: {
+          stepMove: null,
+          slide: {
+            time: 300,
+            ease: 'ease-in-out',
+            delay: 0
+          },
+          image: {
+            time: 200,
+            ease: 'linear',
+            delay: 20
+          }
+        },
+        margin: -60
+      }
+    }
+  }
+
+  _l.cpt.slider(options);
+  </pre>
+
+</div><!-- /.outline --><!-- /.sample_01 -->
+
+
+<!-- /////////////////////////////////////////////////////////////////////////////////////////////////// -->
+<div class="outline sample_02">
+  <h2>モード2: Plain [Default]</h2>  
+
+  <div class="slider">
+    <div class="main">
+      <div class="images">
+        <ul>
+          <li><a href=""><img src="./img/01/01.png" alt="" width="250"></a>1</li>
+          <li><a href=""><img src="./img/01/02.png" alt="" width="250"></a>2</li>
+          <li><a href=""><img src="./img/01/03.png" alt="" width="250"></a>3</li>
+          <li><a href=""><img src="./img/01/04.png" alt="" width="250"></a>4</li>         
+          <li><a href=""><img src="./img/01/05.png" alt="" width="250"></a>5</li>
+          <li><a href=""><img src="./img/01/06.png" alt="" width="250"></a>6</li>                
+          <li><a href=""><img src="./img/01/07.png" alt="" width="250"></a>7</li>                  
+          <li><a href=""><img src="./img/01/08.png" alt="" width="250"></a>8</li>
+          <li><a href=""><img src="./img/01/09.png" alt="" width="250"></a>9</li>
+          <li><a href=""><img src="./img/01/10.png" alt="" width="250"></a>10</li>
+          <li><a href=""><img src="./img/01/11.png" alt="" width="250"></a>11</li>
+          <li><a href=""><img src="./img/01/12.png" alt="" width="250"></a>12</li>
+          <li><a href=""><img src="./img/01/13.png" alt="" width="250"></a>13</li>
+          <li><a href=""><img src="./img/01/14.png" alt="" width="250"></a>14</li>         
+          <li><a href=""><img src="./img/01/15.png" alt="" width="250"></a>15</li>
+          <li><a href=""><img src="./img/01/16.png" alt="" width="250"></a>16</li>
+        </ul>
+      </div><!-- /.images -->
+      <div class="bullet">
+        <ul>
+          <li><span class="number"></span></li>
+        </ul>
+      </div><!-- /.bullet -->
+      <div class="mask_left"></div>
+      <div class="mask_right"></div>
+      <div class="prev"><a href="#">prev</a></div>
+      <div class="next"><a href="#">next</a></div>            
+    </div><!-- /.main -->
+    <div class="loading">
+      <div class="progress"></div>
+    </div><!-- /.loading -->
+  </div><!-- /.slider -->
+
+<script>
+;(function() {
+  // optionの設定
+  var options = {
+    context: $('.sample_02 .slider'),
+    resize: true
+  };
+
+  //loading
+  var $slider = $('.sample_02 .slider'),
+      $frame = $slider.find('.images'),
+      $loading = $slider.find('.loading'),
+      $progress = $loading.find('.progress');
+
+  var progressWidth = 300;
+  $progress.width(0);
+
+  options.loading = true;
+  options.loadingMinTime = 400;
+  options.loadingStart = function() {
+  }
+  options.loadingProgress = function(progress, all) {
+    // console.log((progress / all * 100) + '%');
+    $progress.width( progressWidth * progress / all);
+  }
+  options.loadingEnd = function() {
+    $loading.delay(400).fadeOut(600);
+  }
+
+  _l.cpt.slider(options);
+})();
+</script>
+
+  <h3>mode option</h3>
+
+  <pre class="brush: js;">
+  /* js */
+
+  var options = {
+    mode: {
+      plain: {
+        detect: (function() {
+          return true; // ブラウザ分岐など振り分け可能  
+        })(),
+        animation: {
+          stepMove: null,
+          slide: {
+            time: 300,
+            ease: 'ease-in-out',
+            delay: 0
+          }
+        },
+        margin: 10
+      }
+    }
+  }
+
+  _l.cpt.slider(options);
+  </pre>
+
+</div><!-- /.outline --><!-- /.sample_02 -->
+
+
+<h2>Option</h2>
+
+<p>必要に応じて適宜以下のオプションを適用してください。</p>
+<p>※ モードに関わらず適応されます。</p>
+
+
+<!-- /////////////////////////////////////////////////////////////////////////////////////////////////// -->
+<div class="outline sample_03 sample_small">
+  <h3>ループさせる</h3>
+
+  <div class="slider">
+    <div class="main">
+      <div class="images">
+        <ul>
+          <li><a href=""><img src="./img/02/01.png" alt="" width="250"></a>1</li>
+          <li><a href=""><img src="./img/02/02.png" alt="" width="250"></a>2</li>
+          <li><a href=""><img src="./img/02/03.png" alt="" width="250"></a>3</li>
+          <li><a href=""><img src="./img/02/04.png" alt="" width="250"></a>4</li>         
+          <li><a href=""><img src="./img/02/05.png" alt="" width="250"></a>5</li>
+          <li><a href=""><img src="./img/02/06.png" alt="" width="250"></a>6</li>                
+          <li><a href=""><img src="./img/02/07.png" alt="" width="250"></a>7</li>                  
+          <li><a href=""><img src="./img/02/08.png" alt="" width="250"></a>8</li>
+          <li><a href=""><img src="./img/02/09.png" alt="" width="250"></a>9</li>
+          <li><a href=""><img src="./img/02/10.png" alt="" width="250"></a>10</li>
+          <li><a href=""><img src="./img/02/11.png" alt="" width="250"></a>11</li>
+          <li><a href=""><img src="./img/02/12.png" alt="" width="250"></a>12</li>
+          <li><a href=""><img src="./img/02/13.png" alt="" width="250"></a>13</li>
+          <li><a href=""><img src="./img/02/14.png" alt="" width="250"></a>14</li>         
+          <li><a href=""><img src="./img/02/15.png" alt="" width="250"></a>15</li>
+          <li><a href=""><img src="./img/02/16.png" alt="" width="250"></a>16</li>
+        </ul>
+      </div><!-- /.images -->            
+    </div><!-- /.main --> 
+  </div><!-- /.slider -->
+
+  <pre class="brush: js;">
+  /* js */
+
+  // optionの設定
+  var options = {
+    context: $('.sample_03 .slider'),
+    loop: true, // loop    
+    mode: {
+      coverFlow: {
+        detect: (function() {
+          return true;
+        })()
+      }
+    }
+  };
+  _l.cpt.slider(options);
+  </pre>   
+
+<script>
+;(function() {
+  // optionの設定
+  // detactでブラウザ分岐など振り分け可能
+  var options = {
+    context: $('.sample_03 .slider'),
+    loop: true,
+    mode: {
+      coverFlow: {
+        detect: (function() {
+          return true;
+        })()
+      }
+    }
+  };
+  _l.cpt.slider(options);
+})();
+</script>
+
+</div><!-- /.outline --><!-- /.sample_03 -->
+
+
+<!-- /////////////////////////////////////////////////////////////////////////////////////////////////// -->
+<div class="outline sample_04 sample_small">
+  <h3>バレットを表示</h3>
+
+  <div class="slider">
+    <div class="main">
+      <div class="images">
+        <ul>
+          <li><a href=""><img src="./img/02/01.png" alt="" width="250"></a>1</li>
+          <li><a href=""><img src="./img/02/02.png" alt="" width="250"></a>2</li>
+          <li><a href=""><img src="./img/02/03.png" alt="" width="250"></a>3</li>
+          <li><a href=""><img src="./img/02/04.png" alt="" width="250"></a>4</li>         
+          <li><a href=""><img src="./img/02/05.png" alt="" width="250"></a>5</li>
+          <li><a href=""><img src="./img/02/06.png" alt="" width="250"></a>6</li>                
+          <li><a href=""><img src="./img/02/07.png" alt="" width="250"></a>7</li>                  
+          <li><a href=""><img src="./img/02/08.png" alt="" width="250"></a>8</li>
+          <li><a href=""><img src="./img/02/09.png" alt="" width="250"></a>9</li>
+          <li><a href=""><img src="./img/02/10.png" alt="" width="250"></a>10</li>
+          <li><a href=""><img src="./img/02/11.png" alt="" width="250"></a>11</li>
+          <li><a href=""><img src="./img/02/12.png" alt="" width="250"></a>12</li>
+          <li><a href=""><img src="./img/02/13.png" alt="" width="250"></a>13</li>
+          <li><a href=""><img src="./img/02/14.png" alt="" width="250"></a>14</li>         
+          <li><a href=""><img src="./img/02/15.png" alt="" width="250"></a>15</li>
+          <li><a href=""><img src="./img/02/16.png" alt="" width="250"></a>16</li>
+        </ul>
+      </div><!-- /.images -->
+      <div class="bullet">
+        <ul>
+          <li><span class="number"></span></li>
+        </ul>
+      </div><!-- /.bullet -->         
+    </div><!-- /.main --> 
+  </div><!-- /.slider -->
+
+  <pre class="brush: html;">
+  <!-- html -->
+
+  <!-- 
+  以下のhtmlを追記
+  ul>liがbulletのひな型
+  ul>li>.numberが存在すれば数字を自動挿入
+  -->
+  <div class="bullet">
+    <ul>
+      <li><span class="number"></span></li>
+    </ul>
+  </div><!-- /.bullet -->
+  </pre>
+
+  <pre class="brush: js;">
+  /* js */
+
+  // optionの設定
+  var options = {
+    context: $('.sample_04 .slider'),
+    bulletClick: true, // falseにすればclickイベントなし    
+    mode: {
+      coverFlow: {
+        detect: (function() {
+          return true;
+        })()
+      }
+    }
+  };
+  _l.cpt.slider(options);
+  </pre>   
+
+<script>
+;(function() {
+  // optionの設定
+  // detactでブラウザ分岐など振り分け可能
+  var options = {
+    context: $('.sample_04 .slider'),
+    bulletClick: true,
+    mode: {
+      coverFlow: {
+        detect: (function() {
+          return true;
+        })()
+      }
+    }
+  };
+  _l.cpt.slider(options);
+})();
+</script>
+
+</div><!-- /.outline --><!-- /.sample_04 -->
+
+
+<!-- /////////////////////////////////////////////////////////////////////////////////////////////////// -->
+<div class="outline sample_05 sample_small">
+  <h3>ローディングを表示</h3>
+
+  <div class="slider">
+    <div class="main">
+      <div class="images">
+        <ul>
+          <li><a href=""><img src="./img/02/01.png" alt="" width="250"></a>1</li>
+          <li><a href=""><img src="./img/02/02.png" alt="" width="250"></a>2</li>
+          <li><a href=""><img src="./img/02/03.png" alt="" width="250"></a>3</li>
+          <li><a href=""><img src="./img/02/04.png" alt="" width="250"></a>4</li>         
+          <li><a href=""><img src="./img/02/05.png" alt="" width="250"></a>5</li>
+          <li><a href=""><img src="./img/02/06.png" alt="" width="250"></a>6</li>                
+          <li><a href=""><img src="./img/02/07.png" alt="" width="250"></a>7</li>                  
+          <li><a href=""><img src="./img/02/08.png" alt="" width="250"></a>8</li>
+          <li><a href=""><img src="./img/02/09.png" alt="" width="250"></a>9</li>
+          <li><a href=""><img src="./img/02/10.png" alt="" width="250"></a>10</li>
+          <li><a href=""><img src="./img/02/11.png" alt="" width="250"></a>11</li>
+          <li><a href=""><img src="./img/02/12.png" alt="" width="250"></a>12</li>
+          <li><a href=""><img src="./img/02/13.png" alt="" width="250"></a>13</li>
+          <li><a href=""><img src="./img/02/14.png" alt="" width="250"></a>14</li>         
+          <li><a href=""><img src="./img/02/15.png" alt="" width="250"></a>15</li>
+          <li><a href=""><img src="./img/02/16.png" alt="" width="250"></a>16</li>
+        </ul>
+      </div><!-- /.images -->
+    </div><!-- /.main -->
+    <div class="loading">
+      <div class="progress"></div>
+    </div><!-- /.loading -->
+  </div><!-- /.slider -->
+
+  <pre class="brush: html;">
+  <!-- html -->
+
+  <!-- 
+  以下のhtmlを追記
+  -->
+  <div class="loading">
+    <div class="progress"></div>
+  </div><!-- /.loading -->
+
+  </pre>
+
+  <pre class="brush: js;">
+  /* js */
+
+  // optionの設定
+  var options = {
+    context: $('.sample_05 .slider'),
+    mode: {
+      coverFlow: {
+        detect: (function() {
+          return true;
+        })()
+      }
+    }
+  };
+
+  //loading設定
+  var $slider = $('.sample_05 .slider'),
+      $frame = $slider.find('.images'),
+      $loading = $slider.find('.loading'),
+      $progress = $loading.find('.progress');
+
+  var progressWidth = 300;
+  $progress.width(0);
+
+  options.loading = true;
+  options.loadingMinTime = 400;
+  options.loadingStart = function() {
+  }
+  options.loadingProgress = function(progress, all) {
+    // console.log((progress / all * 100) + '%');
+    $progress.width( progressWidth * progress / all);
+  }
+  options.loadingEnd = function() {
+    $loading.delay(400).fadeOut(600);
+  }
+  
+  _l.cpt.slider(options);
+  </pre>   
+
+<script>
+;(function() {
+  // optionの設定
+  var options = {
+    context: $('.sample_05 .slider'),
+    mode: {
+      coverFlow: {
+        detect: (function() {
+          return true;
+        })()
+      }
+    }
+  };
+
+  //loading
+  var $slider = $('.sample_05 .slider'),
+      $frame = $slider.find('.images'),
+      $loading = $slider.find('.loading'),
+      $progress = $loading.find('.progress');
+
+  var progressWidth = 300;
+  $progress.width(0);
+
+  options.loading = true;
+  options.loadingMinTime = 400;
+  options.loadingStart = function() {
+  }
+  options.loadingProgress = function(progress, all) {
+    // console.log((progress / all * 100) + '%');
+    $progress.width( progressWidth * progress / all);
+  }
+  options.loadingEnd = function() {
+    $loading.delay(400).fadeOut(600);
+  }
+
+  _l.cpt.slider(options);
+})();
+</script>
+
+</div><!-- /.outline --><!-- /.sample_05 -->
+
+
+<!-- /////////////////////////////////////////////////////////////////////////////////////////////////// -->
+<div class="outline sample_06 sample_small">
+  <h3>ウインドウリサイズに対応 (リキッド/ レスポンシブ用)</h3>
+
+  <div class="slider">
+    <div class="main">
+      <div class="images">
+        <ul>
+          <li><a href=""><img src="./img/02/01.png" alt="" width="250"></a>1</li>
+          <li><a href=""><img src="./img/02/02.png" alt="" width="250"></a>2</li>
+          <li><a href=""><img src="./img/02/03.png" alt="" width="250"></a>3</li>
+          <li><a href=""><img src="./img/02/04.png" alt="" width="250"></a>4</li>         
+          <li><a href=""><img src="./img/02/05.png" alt="" width="250"></a>5</li>
+          <li><a href=""><img src="./img/02/06.png" alt="" width="250"></a>6</li>                
+          <li><a href=""><img src="./img/02/07.png" alt="" width="250"></a>7</li>                  
+          <li><a href=""><img src="./img/02/08.png" alt="" width="250"></a>8</li>
+          <li><a href=""><img src="./img/02/09.png" alt="" width="250"></a>9</li>
+          <li><a href=""><img src="./img/02/10.png" alt="" width="250"></a>10</li>
+          <li><a href=""><img src="./img/02/11.png" alt="" width="250"></a>11</li>
+          <li><a href=""><img src="./img/02/12.png" alt="" width="250"></a>12</li>
+          <li><a href=""><img src="./img/02/13.png" alt="" width="250"></a>13</li>
+          <li><a href=""><img src="./img/02/14.png" alt="" width="250"></a>14</li>         
+          <li><a href=""><img src="./img/02/15.png" alt="" width="250"></a>15</li>
+          <li><a href=""><img src="./img/02/16.png" alt="" width="250"></a>16</li>
+        </ul>
+      </div><!-- /.images -->
+      <div class="bullet">
+        <ul>
+          <li><span class="number"></span></li>
+        </ul>
+      </div><!-- /.bullet -->
+    </div><!-- /.main -->
+  </div><!-- /.slider -->
+
+  <pre class="brush: js;">
+  /* js */
+
+  // optionの設定
+  var options = {
+    context: $('.sample_06 .slider'),
+    resize: true, // resize
+    mode: {
+      coverFlow: {
+        detect: (function() {
+          return true;
+        })()
+      }
+    }
+  };
+  var slider = _l.cpt.slider(options);
+
+  // もしくは、window.resize時に、
+  // slider.refresh();　を実行すると、
+  // .images のサイズに合わせて、レイアウトを自動調整します。
+  </pre>   
+
+<script>
+;(function() {
+  // optionの設定
+  var options = {
+    context: $('.sample_06 .slider'),
+    resize: true,
+    mode: {
+      coverFlow: {
+        detect: (function() {
+          return true;
+        })()
+      }
+    }
+  };
+  var slider = _l.cpt.slider(options);
+})();
+</script>
+
+</div><!-- /.outline --><!-- /.sample_06 -->
+
+
+<!-- /////////////////////////////////////////////////////////////////////////////////////////////////// -->
+<div class="outline sample_07 sample_small">
+  <h3>一定間隔で自動スライド</h3>
+
+  <div class="slider">
+    <div class="main">
+      <div class="images">
+        <ul>
+          <li><a href=""><img src="./img/02/01.png" alt="" width="250"></a>1</li>
+          <li><a href=""><img src="./img/02/02.png" alt="" width="250"></a>2</li>
+          <li><a href=""><img src="./img/02/03.png" alt="" width="250"></a>3</li>
+          <li><a href=""><img src="./img/02/04.png" alt="" width="250"></a>4</li>         
+          <li><a href=""><img src="./img/02/05.png" alt="" width="250"></a>5</li>
+          <li><a href=""><img src="./img/02/06.png" alt="" width="250"></a>6</li>                
+          <li><a href=""><img src="./img/02/07.png" alt="" width="250"></a>7</li>                  
+          <li><a href=""><img src="./img/02/08.png" alt="" width="250"></a>8</li>
+          <li><a href=""><img src="./img/02/09.png" alt="" width="250"></a>9</li>
+          <li><a href=""><img src="./img/02/10.png" alt="" width="250"></a>10</li>
+          <li><a href=""><img src="./img/02/11.png" alt="" width="250"></a>11</li>
+          <li><a href=""><img src="./img/02/12.png" alt="" width="250"></a>12</li>
+          <li><a href=""><img src="./img/02/13.png" alt="" width="250"></a>13</li>
+          <li><a href=""><img src="./img/02/14.png" alt="" width="250"></a>14</li>         
+          <li><a href=""><img src="./img/02/15.png" alt="" width="250"></a>15</li>
+          <li><a href=""><img src="./img/02/16.png" alt="" width="250"></a>16</li>
+        </ul>
+      </div><!-- /.images -->    
+    </div><!-- /.main -->
+  </div><!-- /.slider -->
+
+  <pre class="brush: js;">
+  /* js */
+
+  // optionの設定
+  var options = {
+    context: $('.sample_07 .slider'),
+    interval: true, // interval
+    intervalTime: 5000, // time
+    mode: {
+      coverFlow: {
+        detect: (function() {
+          return true;
+        })()
+      }
+    }
+  };
+  _l.cpt.slider(options);
+  </pre>   
+
+<script>
+;(function() {
+  // optionの設定
+  var options = {
+    context: $('.sample_07 .slider'),
+    interval: true,
+    intervalTime: 3000,
+    mode: {
+      coverFlow: {
+        detect: (function() {
+          return true;
+        })()
+      }
+    }
+  };
+  var slider = _l.cpt.slider(options);
+})();
+</script>
+
+</div><!-- /.outline --><!-- /.sample_07 -->
+
+<h3>prev/nextを表示しない</h3>
+
+  <pre class="brush: html;">
+  /* html */
+
+  /* .prev および .next をトルツメするだけ */
+  <div class="prev"><a href="#">prev</a></div>
+  <div class="next"><a href="#">next</a></div>
+  </pre> 
+
+<h3>prev/nextでスライドする個数を変更</h3>
+
+  <pre class="brush: js;">
+  /* js */
+
+  options.step = 3;
+  </pre> 
+
+<h3>初期表示のセンターを変更</h3>
+
+  <pre class="brush: js;">
+  /* js */
+
+  options.center = 10;
+  </pre> 
+
+<h3>swipeをやめる</h3>
+
+  <pre class="brush: js;">
+  /* js */
+
+  options.swipe = false;
+  options.mouseSwipe = false;
+  </pre>  
+
+<h3>画像にイベントをバインド</h3>
+
+  <pre class="brush: js;">
+  // eventをバインドするとき
+  // 通常と同様にpreventDefaultを使用できます
+  $('.slide li').on('sliderclick', function(e) {
+    // e.preventDefault();
+    console.log('bind event');
+  });
+  </pre>
+
+
+<h2>指定のクラス名/HTML構造</h2>
+
+<p>以下の構造を担保したhtmlとしてください。</p>
+
+<h3>フレーム</h3>
+<ul>
+  <li>context .main</li>
+  <li>context .main .images</li>
+  <li>context .main .images > ul > li</li>
+</ul>
+
+<h3>バレット</h3>
+<ul>
+  <li>context .bullet</li>
+  <li>context .bullet > ul</li>
+  <li>context .bullet > ul > li</li>
+  <li>/* 要素あれば番号挿入 */<br>context .bullet > ul > li .number</li>
+</ul>
+
+<h3>ボタン /* 要素あればクリック可能に */</h3>
+<ul>
+  <li>context .prev</li>
+  <li>context .next</li>
+</ul>
+
+<h3>※ モードによってクラス名が自動付与されます</h3>
+<ul>
+  <li>context .main.plain</li>
+  <li>context .main.cover_flow</li>
+</ul>
+
+
+</div></div>
+</body>
+</html>
