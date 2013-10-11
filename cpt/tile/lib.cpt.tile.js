@@ -2,8 +2,8 @@
 /* require: jquery */
 ;(function(window, document, $, undefined) {
 
-	window._l = window._l || {};
-	_l.cpt = _l.cpt || {};
+  window._l = window._l || {};
+  _l.cpt = _l.cpt || {};
 
   var _tile;
 
