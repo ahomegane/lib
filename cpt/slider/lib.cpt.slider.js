@@ -18,7 +18,7 @@
 
       /* options */
       this.options = {
-        context: $('.slider'),
+        context: null,
         loop: false,
         repeat: options.loop ? 3 : 1,
         center: null,
@@ -92,18 +92,15 @@
         this.mode.plain = true;        
       }
 
-      /* initialize */
-      this.initialize();
-
       this.fn = Slider.prototype;
     }
     Slider.prototype = {
 
-      initialize: function() {
+      init: function() {
         var _this = this;
 
         /* element */
-        this.context = this.options.context;
+        this.context = this.options.context || $('.slider');
         this.main = this.context.find('.main');
         this.frame = this.context.find('.images');
         this.all = this.frame.find('> ul');
@@ -116,8 +113,7 @@
         if (this.bullet.length > 0) this.options.bullet = true;
 
         /* flag */
-        this.isInitialize = true;
-
+        this.isInit = true;
         this.isInitEnd = false;
         this.isLoadingEnd = true;
 
@@ -191,7 +187,7 @@
       render: function() {
         var _this = this;
 
-        if (this.isInitialize) {
+        if (this.isInit) {
           if (this.mode.plain) this.main.addClass('plain');
           if (this.mode.coverFlow) this.main.addClass('cover_flow');
         }
@@ -201,14 +197,14 @@
             left: _this.imagesSize.w * i
           });
         });
-        if (this.isInitialize) {
+        if (this.isInit) {
           this.all.find('li').remove();
           this.all.append(this.clones);
         }
 
         if (this.options.bullet) {
           var original = this.bullet.find('> ul > li').eq(0);
-          if (this.isInitialize) {
+          if (this.isInit) {
             this.bullets = this.makeClone(original, this.clonesSize.l);
             this.bullets.find('.number').each(function(i) {
               $(this).text(i + 1);
@@ -224,7 +220,7 @@
             marginLeft: -w / 2
           });
 
-          if (this.isInitialize) {
+          if (this.isInit) {
             this.bullet.find('> ul > li').remove();
             this.bullet.find('> ul').append(this.bullets);
           }
@@ -234,7 +230,7 @@
         this.move(this.x);
         this.updateCenter(this.clones, this.c);
 
-        if (this.isInitialize) {
+        if (this.isInit) {
           this.bind();        
           this.setDefaultAnimation();
           this.isInitEnd = true;
@@ -764,7 +760,7 @@
       initEnd: function() {
         if (! this.isInitEnd || ! this.isLoadingEnd || this.isExecuteInitEnd) return;
         this.isExecuteInitEnd = true;
-        this.isInitialize = false;
+        this.isInit = false;
         if (typeof this.options.initEnd == 'function') this.options.initEnd();
       },
 

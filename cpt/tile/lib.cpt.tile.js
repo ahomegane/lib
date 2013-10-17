@@ -5,7 +5,7 @@
   window._l = window._l || {};
   _l.cpt = _l.cpt || {};
 
-  var _tile;
+  var _export;
 
   ;(function(window, document, $, undefined) {
 
@@ -111,8 +111,6 @@
         position: 'relative'
       });
       this.css = {};
-
-      this.init();
     }
     Frame.prototype = {
 
@@ -457,13 +455,13 @@
 
     }
 
-    _tile = function(frame, options) {
+    _export = function(frame, options) {
       return new Frame(frame, options);
     }
 
   })(window, document, jQuery);
 
   // export
-  window._l.cpt.tile = _tile;
+  window._l.cpt.tile = _export;
 
 })(window, document, jQuery);

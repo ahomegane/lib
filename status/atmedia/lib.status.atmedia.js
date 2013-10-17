@@ -1,9 +1,6 @@
-/**
- * responsive framework atmedia.js
- * [version] 1.0.0
- * [global namespace] $.atmedia
- * [jQuery] version 1.7.0 or above
- */
+/* version: 1.0.0 */
+/* global namespace: $.atmedia */
+/* require: jquery1.7.0 or above */
 ;(function(window, document, $, undefined) {
 
   "use strict";
