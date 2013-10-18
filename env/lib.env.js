@@ -111,9 +111,31 @@
   })();
 
   _l.support = {
+
     touch: 'ontouchstart' in window,
+
     canTouch: 'ontouchstart' in window || 'onmspointerover' in window,
+
+    transition: (function() {
+      var prop = [
+        'webkitTransitionProperty',
+        'MozTransitionProperty',
+        'mozTransitionProperty',
+        'msTransitionProperty',
+        'oTransitionProperty',
+        'transitionProperty'
+      ];
+      var div = document.createElement('div');
+      for (var i = 0, l = prop.length; i < l; i++) {
+        if(div.style[prop[i]] !== undefined){
+          return true;
+        }
+      }
+      return false;
+    })(),
+
     standalone: navigator.standalone ? true : false
+
   };
 
 })(window, document);
