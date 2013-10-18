@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<title>lib.ui.css3-jquery.js</title>
+<meta name="description" content="" />
+<meta name="keywords" content="" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
+<meta name="format-detection" content="telephone=no" />
+
+<!--for this site-->
+<link rel="stylesheet" href="../../_resource/css/basic.css" media="all">
+<script src="http://code.jquery.com/jquery-git1.min.js"></script>
+
+</head>
+<body>
+<div id="container">
+<div id="contentsarea">
+<h1>lib.ui.css3-jquery.js</h1>
+<p>consoleを見てください。</p>
+<p class="mouseover">mouseover</p>
+</div>
+</div>
+
+<style>
+p {
+  opacity: 0;
+  -webkit-transform: translateY(-50px);
+     -moz-transform: translateY(-50px);
+       -o-transform: translateY(-50px);
+      -ms-transform: translateY(-50px);
+          transform: translateY(-50px);
+}
+.mouseover {
+  opacity: 1;
+  -webkit-transform: translateY(0px);
+     -moz-transform: translateY(0px);
+       -o-transform: translateY(0px);
+      -ms-transform: translateY(0px);
+          transform: translateY(0px);
+}
+</style>
+
+<script src="../../env/lib.env.js"></script>
+<script src="./lib.ui.css3-jquery.js"></script>
+<script>
+
+  $('p').addTransition({
+    css: {
+      transform: 'translateY(0px)',
+      opacity: '1'
+    },
+    time: 400,
+    ease: 'ease-in',
+    delay: 500,
+    transitionEnd: function(e) {
+      if (! $.isTransitionEndTarget(e, 'opacity')) return;
+      console.log('p transitionEnd');
+    }
+  });
+
+  $('.mouseover').addTransition({
+    target: 'transform',
+    time: 400,
+    ease: 'ease-in',
+    delay: 0
+  })
+  .oneTransitionEnd('transform', function(){
+    console.log('one');
+  });
+
+  $('.mouseover').on('mouseenter', function() {
+    $(this).css({
+      transform: 'scale(-1.0, -5.0)'
+    });
+  });
+
+  $('.mouseover').on('mouseleave', function() {
+    $(this).css({
+      transform: 'scale(1.0, 1.0)'
+    });
+  });
+</script>
+</body>
+</html>
