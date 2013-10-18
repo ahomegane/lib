@@ -62,12 +62,11 @@
 
       addTransition: function(options) {
         var options = options || {};
-        
-        //ease: linear/ease/ease-in/ease-out/ease-in-out/cubic-bezier(num, num, num, num)
+                
         var target = options.target,
             css = options.css,
             time = options.time || 400,
-            ease = options.ease || 'linear',
+            ease = options.ease || 'linear',//ease: linear/ease/ease-in/ease-out/ease-in-out/cubic-bezier(num, num, num, num)
             delay = options.delay || 0,            
             transitionEnd = options.transitionEnd;
         var str = this.css('transition');        
