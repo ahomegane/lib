@@ -24,7 +24,7 @@
 <script src="./lib.util.js"></script>
 <script>
 
-/*_l.util.toArray*/
+/* _l.util.toArray */
 function test() {
   var a = arguments;
   var b = _l.util.toArray(arguments);
@@ -33,7 +33,7 @@ function test() {
 }
 test('a', 1, 2);
 
-/*_l.util.loopTimer*/
+/* _l.util.loopTimer */
 var testTimer = _l.util.loopTimer(function() {
   console.log('loopTimer');
 }, 400);
@@ -42,6 +42,10 @@ document.querySelector('h1').addEventListener('click', function() {
   console.log('stop')
   testTimer.stop();
 });
+
+/* _l.util.toCamel */
+console.log(_l.util.toCamel('a_bb_ccc', 'u'));
+console.log(_l.util.toCamel('a-bb-ccc', 'h'));
 
 </script>
 </body>

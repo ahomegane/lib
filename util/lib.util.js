@@ -58,6 +58,19 @@
       return new LoopTimer(render, time);
     },
 
+    toCamel: function(hyphen, type) {
+      if (! hyphen) return hyphen;
+      if (type == 'h') {
+        var reg = /\-./g;
+      } else {
+        var reg = /\_./g;
+      }
+      var camel = hyphen.replace(reg, function (matched) {
+          return matched.charAt(1).toUpperCase();
+      });
+      return camel;
+    },
+
     //16進数の色の数値のランダムに生成
     //maxval〜minval(16進数指定 0x******)を指定
     //http://www.nthelp.com/colorcodes.htm
