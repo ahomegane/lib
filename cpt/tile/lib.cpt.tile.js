@@ -254,10 +254,10 @@
                 }
               };    
 
-          if (o2.lt.x <= o1.rb.x &&
-              o1.lt.x <= o2.rb.x &&
-              o2.lt.y <= o1.rb.y &&
-              o1.lt.y <= o2.rb.y ) return true;
+          if (o2.lt.x < o1.rb.x &&
+              o1.lt.x < o2.rb.x &&
+              o2.lt.y < o1.rb.y &&
+              o1.lt.y < o2.rb.y ) return true;
         }
         return false;
       },
