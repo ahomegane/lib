@@ -1,5 +1,5 @@
 /* version: 1.0.0 */
-/* require: jquery, lib.env, lib.ui.css3, lib.ui.touches, lib.media.imageloader */
+/* require: jquery, lib.env, lib.ui.css3, lib.ui.touches, lib.media.image-loader */
 ;(function(window, document, $, undefined){
 
   window._l = window._l || {};
@@ -735,7 +735,7 @@
           this.loadingStart();
           this.isLoadingEnd = false;
 
-          _lib.media.imageloader(src, {
+          _lib.media.imageLoader(src, {
             progress: function(progress, all) {
               _this.loadingProgress(progress, all);
             },

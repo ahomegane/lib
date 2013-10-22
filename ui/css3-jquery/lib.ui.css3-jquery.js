@@ -5,18 +5,22 @@
   window._l = window._l || {};
 
   var prefix = _l.prefix,
-      prefixShort = prefix.replace(/\-/g, ''),
-      propertyNames = {
+      prefixShort = prefix.replace(/\-/g, '');
+  
+  var fixProp = {
+
         transitionEnd: (function() {
           if (prefixShort == 'moz') return 'transitionend';
           return prefixShort + 'TransitionEnd';
         })()
+
       };
 
   /* transfrom */
   ;(function(window, document, $, undefined) {
 
-    var Transform = {      
+    var Transform = {
+
       getTransform: function() {
         var matrix = this.css('transform').replace(/matrix\((.*)\)/, '$1').split(',');
         return {
@@ -24,6 +28,7 @@
           translateY: +matrix[5]
         }
       }
+
     }
     $.extend($.fn, Transform);
 
@@ -32,28 +37,29 @@
   /* transition */
   ;(function(window, document, $, undefined) {
   
-    var Util = function() {
-    }
-    Util.prototype = {
+    var util = {
 
-      addPrefix: function(property) {
-        var p = [
+      addPrefix: function(prop) {
+        var target = [
           'transform',
           'perspective'
         ];
-        for (var i = 0, l = p.length; i < l; i++) {
-          if (property == p[i]) return prefix + property;
+        for (var i = 0, l = target.length; i < l; i++) {
+          if (prop == target[i]) return prefix + prop;
         }
-        return property;
+        return prop;
+      },
+
+      makeReg: function(target) {
+        return new RegExp('\\b' +  target + ' .+?(, |$)\\b', 'g')
       }
 
     }
-    var util = new Util();
 
     $.extend($, {
-      isTransitionEndTarget: function(e, property) {
-        var propertyName = e.originalEvent.propertyName;        
-        if (propertyName == property || propertyName == prefix + property) return true;
+      isTransitionEndTarget: function(e, prop) {
+        var name = e.originalEvent.propertyName;        
+        if (name == prop || name == prefix + prop) return true;
         return false;
       }
     });
@@ -61,56 +67,82 @@
     var Transition = {
 
       addTransition: function(options) {
-        var options = options || {};
-                
+        options = options || {};                
         var target = options.target,
             css = options.css,
-            time = options.time || 400,
-            ease = options.ease || 'linear',//ease: linear/ease/ease-in/ease-out/ease-in-out/cubic-bezier(num, num, num, num)
-            delay = options.delay || 0,            
+            time = options.time ? ' ' + (options.time / 1000) + 's' : ' ' + (400 / 1000) + 's',
+            ease = options.ease ? ' ' + options.ease : ' ' + 'linear',//ease: linear/ease/ease-in/ease-out/ease-in-out/cubic-bezier(num, num, num, num)
+            delay = options.delay ? ' ' + (options.delay / 1000) + 's' : '',
             transitionEnd = options.transitionEnd;
-        var str = this.css('transition');        
+
+        var value = this.css('transition');
+        value = value.replace(util.makeReg('all 0s'), '');
 
         if (target) {
           if (typeof target == 'string') target = [target];
           for (var i = 0, l = target.length; i < l; i++) {
-            if (str != '') str += ', ';
-            str += util.addPrefix(target[i]) + ' ' + time + 'ms ' + ease + ' ' + delay + 'ms';
+            if (value != '') value += ', ';
+            value = value.replace(util.makeReg(target[i]), '');
+            value += util.addPrefix(target[i]) + time + ease + delay;
           }
         } else {
           for (var target in css) {
-            if (str != '') str += ', ';
-            str += util.addPrefix(target) + ' ' + time + 'ms ' + ease + ' ' + delay + 'ms';
+            if (value != '') value += ', ';
+            value = value.replace(util.makeReg(target), '');
+            value += util.addPrefix(target) + time + ease + delay;
           }
         }
-        
-        this.css('transition', str);
+
+        this.css('transition', value);
+
         setTimeout($.proxy(function() {
-          if (transitionEnd) this.on(propertyNames.transitionEnd, transitionEnd);
+          if (transitionEnd) this.on(fixProp.transitionEnd, transitionEnd);
           if (css) this.css(css);
         }, this), 0);
 
         return this;
       },
 
-      removeTransition: function($el) {
-        this.css('transition', '');
+      removeTransition: function(options) {
+        options = options || {};
+        var target = options.target;
+            css = options.css;
+
+        if (target || css) {
+          var value = this.css('transition');
+          value = value.replace(util.makeReg('all 0s'), '');
+
+          if (target) {
+            if (typeof target == 'string') target = [target];
+            for (var i = 0, l = target.length; i < l; i++) {
+              value = value.replace(util.makeReg(target[i]), '');
+            }
+          } else {
+            for (var target in css) {
+              value = value.replace(util.makeReg(target), '');
+            }
+          }
+          this.css('transition', value);
+
+        } else {
+          this.css('transition', '');
+        }
         return this;
       },
 
       onTransitionEnd: function(callback) {
-        this.on(propertyNames.transitionEnd, callback);
+        this.on(fixProp.transitionEnd, callback);
         return this;
       },
 
       offTransitionEnd: function(callback) {
-        this.off(propertyNames.transitionEnd, callback);
+        this.off(fixProp.transitionEnd, callback);
         return this;
       },
 
-      oneTransitionEnd: function(property, callback) {
+      oneTransitionEnd: function(prop, callback) {
         var one = function(e) {
-          if (! $.isTransitionEndTarget(e, property)) return;
+          if (! $.isTransitionEndTarget(e, prop)) return;
           callback(e);
           $(this).offTransitionEnd(one);
         };

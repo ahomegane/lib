@@ -97,7 +97,6 @@
       }
 
       this.frame = frame;
-      this.width = this.frame.width();
       this.children = this.options.elements;
       this.tiles = [];
       this.gridX = new Grid([this.options.offset.left]);
@@ -117,6 +116,8 @@
       init: function() {
         var _this = this,
             options = this.options;
+
+        this.width = this.frame.width();
 
         var tiles = [], tilesLeft = [], tilesRight = [];
         this.children.each(function(i) {
