@@ -205,7 +205,7 @@
         if (this.options.bullet) {
           var original = this.bullet.find('> ul > li').eq(0);
           if (this.isInit) {
-            this.bullets = this.makeClone(original, this.clonesSize.l);
+            this.bullets = this.makeClone(original, this.imagesSize.l);
             this.bullets.find('.number').each(function(i) {
               $(this).text(i + 1);
             });
@@ -213,7 +213,7 @@
 
           var w = original.outerWidth(),
               m = +original.css('margin-left').replace('px', '') + +original.css('margin-right').replace('px', '');
-          w = (w + m) * this.clonesSize.l - m;
+          w = (w + m) * this.imagesSize.l - m;
           w = this.frameSize.w - 2 * m >= w ? w : this.frameSize.w - 2 * m;
           this.bullet.css({
             width: w,
