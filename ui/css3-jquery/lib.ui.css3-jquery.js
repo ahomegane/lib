@@ -19,7 +19,7 @@
   /* transfrom */
   ;(function(window, document, $, undefined) {
 
-    var Transform = {
+    var extend = {
 
       getTransform: function() {
         var matrix = this.css('transform').replace(/matrix\((.*)\)/, '$1').split(',');
@@ -30,7 +30,7 @@
       }
 
     }
-    $.extend($.fn, Transform);
+    $.extend($.fn, extend);
 
   })(window, document, jQuery);
 
@@ -52,6 +52,10 @@
 
       makeReg: function(target) {
         return new RegExp('\\b' +  target + ' .+?(, |$)\\b', 'g')
+      },
+
+      toHyphen: function(camelCase) {
+        return camelCase.replace(/([a-z]|\d)([A-Z])/g, '$1-$2').toLowerCase();
       }
 
     }
@@ -64,7 +68,7 @@
       }
     });
 
-    var Transition = {
+    var extend = {
 
       addTransition: function(options) {
         options = options || {};                
@@ -93,7 +97,7 @@
           }
         }
 
-        this.css('transition', value);
+        this.css('transition', util.toHyphen(value));
 
         setTimeout($.proxy(function() {
           if (transitionEnd) this.on(fixProp.transitionEnd, transitionEnd);
@@ -122,7 +126,7 @@
               value = value.replace(util.makeReg(target), '');
             }
           }
-          this.css('transition', value);
+          this.css('transition', util.toHyphen(value));
 
         } else {
           this.css('transition', '');
@@ -142,7 +146,7 @@
 
       oneTransitionEnd: function(prop, callback) {
         var one = function(e) {
-          if (! $.isTransitionEndTarget(e, prop)) return;
+          if (! $.isTransitionEndTarget(e, util.toHyphen(prop))) return;
           callback(e);
           $(this).offTransitionEnd(one);
         };
@@ -151,7 +155,7 @@
 
     };
 
-    $.extend($.fn, Transition);
+    $.extend($.fn, extend);
 
   })(window, document, jQuery);
 })(window, document, jQuery);

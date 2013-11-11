@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<title>lib.ui.transition.js</title>
+<meta name="description" content="" />
+<meta name="keywords" content="" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
+<meta name="format-detection" content="telephone=no" />
+
+<!--for this site-->
+<link rel="stylesheet" href="../../_resource/css/basic.css" media="all">
+<!-- <script src="http://code.jquery.com/jquery-git1.min.js"></script> -->
+<script src="_jquery.js"></script>
+
+<style>
+.base {
+  position: relative;
+}
+.object {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: red;
+  overflow: hidden;
+  width: 50px;
+  height: 50px;
+}
+</style>
+
+</head>
+<body>
+  <div id="container">
+    <div id="contentsarea">
+      <h1>lib.ui.transition.js</h1>
+      <div class="base">
+        <p>stopは使えません</p>
+        <div class="object">
+          object
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script src="../../env/lib.env.js"></script>
+<script src="../css3-jquery/lib.ui.css3-jquery.js"></script>
+<script src="./lib.ui.transition.js"></script>
+<script>
+  $('.object')
+  .transition({left: 500}, 'ease-in', function() {
+    console.log('1');
+  })
+  .transition({left: 100}, 300, function() {
+    console.log('2');
+  })
+  .transition({top: 200}, 100, 'linear', function() {
+    alert('3');
+  });
+</script>
+
+</body>
+</html>

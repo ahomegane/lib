@@ -27,18 +27,6 @@
       }
     });
 
-    var util = {
-
-      toCamel: function(hyphen) {
-        if (! hyphen) return hyphen;
-        var camel = hyphen.replace(/\-./g, function (matched) {
-            return matched.charAt(1).toUpperCase();
-        });
-        return camel;
-      }
-
-    }
-
     var SimpleAnimation = function(el, options) {
       this.el = el;
 
@@ -264,7 +252,7 @@
           } else {
             this.el
               .stop(true, true)
-              .animate(css, duration, util.toCamel(ease));
+              .animate(css, duration, $.camelCase(ease));
           }
 
         } else {//css
