@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<title>lib.cpt.layer.js</title>
+<meta name="description" content="" />
+<meta name="keywords" content="" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
+<meta name="format-detection" content="telephone=no" />
+
+<!--for this site-->
+<link rel="stylesheet" href="../../_resource/css/basic.css" media="all">
+<script src="http://code.jquery.com/jquery-git1.min.js"></script>
+
+<style>
+#contentsarea {
+  max-width: 100%;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+.stage {
+  position: relative;
+  width: 100%;
+  height: 800px;
+}
+.main {
+  background: #ccc;
+  position: absolute;
+  width: 100%;
+  height: 600px;
+}
+.sample01 .main {
+  background: #eab654;
+}
+.sample02 .main {
+  background: #e77644;
+}
+.sample03 .main {
+  background: #e8484d;
+}
+.sample04 .main {
+  background: #1f8abc;
+}
+.sub {
+  position: absolute;
+  background: #e4eaec;
+  width: 200px;
+  height: 600px;
+}
+.main-inner,
+.sub-inner {
+  padding: 20px;
+  position: relative;
+}
+.object {
+  background: red;
+  overflow: hidden;
+}
+.btn {
+  display: block;
+  padding: 20px;
+  position: absolute;
+  right: 0;
+  top: 45%;
+  background: #e4eaec;
+  text-decoration: none;
+}
+.sample03 .btn {
+  background: #304050;
+  color: #fff;
+}
+</style>
+
+</head>
+<body>
+  <div id="container">
+    <div id="contentsarea">
+
+      <div class="stage sample01">
+        <div class="main">
+          <div class="main-inner">
+<!--             <h1>lib.cpt.layer.js</h1> -->
+            <h1>幅が狭くなる</h1>
+            main
+            <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>                  
+          </div>
+          <a class="btn" href="">click</a>
+        </div>
+        <div class="sub">
+          <div class="sub-inner">
+            sub
+            <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>            
+          </div>
+        </div>
+      </div>
+
+      <div class="stage sample02">
+        <div class="main">
+          <div class="main-inner">
+            <h1>幅は変わらず、画面の外へ</h1>
+            main
+            <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
+          </div>
+          <a class="btn" href="">click</a>          
+        </div>
+        <div class="sub">
+          <div class="sub-inner">
+            sub
+            <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
+          </div>
+        </div>
+        <div class="object">
+          object
+        </div>
+      </div>
+
+      <div class="stage sample03">
+        <div class="main">
+          <div class="main-inner">
+            <h1>スクロールで動く</h1>
+            main
+            <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>                        
+          </div>
+        </div>
+        <div class="sub">
+          <div class="sub-inner">
+            sub
+            <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>            
+          </div>
+          <a class="btn" href="">close</a>          
+        </div>
+      </div>
+
+      <div class="stage sample04">
+        <div class="main">
+          <div class="main-inner">
+            <h1>幅50%</h1>
+            main
+            <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>                        
+          </div>
+          <a class="btn" href="">click</a>
+        </div>
+        <div class="sub">
+          <div class="sub-inner">
+            sub
+            <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>            
+          </div>
+        </div>
+      </div>     
+
+    </div>
+  </div>
+
+<script src="../../env/lib.env.js"></script>
+<script src="../../ui/css3-jquery/lib.ui.css3-jquery.js"></script>
+<script src="../../ui/_simple-animation/lib.ui.simple-animation.js"></script>
+<script src="./lib.cpt.layer.js"></script>
+<script>
+  var layer = _l.cpt.layer($('.stage')).init();
+  layer.stage.responsive();
+
+  var main01 = layer.add($('.sample01 .main'), {
+    z: 2,
+    origin: 'left-top'
+  }).responsive();
+  var sub01 = layer.add($('.sample01 .sub'), {
+    z: 1,
+    w: 200,
+    origin: 'right-top'
+  });
+
+  $('.sample01 .btn').on('click', function(e) { 
+    e.preventDefault();   
+    if (main01._isClick) {
+      main01.animate({
+        w: $(window).width()
+      });
+      main01._isClick = false;
+    } else {
+      main01.animate({
+        w: main01.point.w - 200
+      });
+      main01._isClick = true;
+    }
+    return false;
+  });
+
+  var main02 = layer.add($('.sample02 .main'), {
+    z: 2,
+    origin: 'left-top'
+  }).responsive();
+  var sub02 = layer.add($('.sample02 .sub'), {
+    z: 1,
+    w: 200,
+    origin: 'right-top'
+  });
+
+  $('.sample02 .btn').on('click', function(e) { 
+    e.preventDefault();   
+    if (main02._isClick) {
+      main02.animate({
+        x: 0
+      });
+      main02._isClick = false;
+    } else {
+      main02.animate({
+        x: main02.point.x - 200
+      });
+      main02._isClick = true;
+    }
+    return false;
+  });
+
+  var main03 = layer.add($('.sample03 .main'), {
+    z: 2,
+    origin: 'right-top'
+  }).responsive();
+  var sub03 = layer.add($('.sample03 .sub'), {
+    z: 1,
+    w: 230,
+    origin: 'left-top'
+  });
+
+  $(window).on('scroll', function(e) {
+    var t = $(window).scrollTop();
+    var open = main03.el.offset().top - 200;    
+    if (open < t && ! main03._isOpen) {
+      main03.animate({
+        w: main03.point.w - 230,
+        duration: 600,
+        ease: 'ease-in'
+      });
+      main03._isOpen = true;
+    }
+  });
+  $('.sample03 .btn').on('click', function(e) { 
+    e.preventDefault();   
+    main03.animate({
+      w: $(window).width()
+    });
+    return false;
+  });
+
+  var windowW = $(window).width();
+  var main04 = layer.add($('.sample04 .main'), {
+    z: 2,
+    origin: 'left-top'
+  });
+  var sub04 = layer.add($('.sample04 .sub'), {
+    z: 1,
+    w: windowW / 2,
+    origin: 'right-top'
+  }).responsive();
+
+  $(window).on('resize', function() {
+    windowW = $(window).width();
+    sub04.css({
+      w: windowW / 2
+    });
+    if (main04._isClick) {
+      main04.css({
+        w: windowW / 2
+      });
+    } else {
+      main04.css({
+        w: windowW
+      })
+    }
+  });
+
+  $('.sample04 .btn').on('click', function(e) { 
+    e.preventDefault();   
+    if (main04._isClick) {
+      main04.animate({
+        w: windowW
+      });
+      main04._isClick = false;
+    } else {
+      main04.animate({
+        w: windowW / 2
+      });
+      main04._isClick = true;
+    }
+    return false;
+  });
+
+  var obj = layer.add($('.object'), {
+    z: 3,
+    w: 100,
+    h: 100
+  });
+
+  console.log('------ 0');
+  obj.animate({
+    x: 300,
+    w: '13%'
+  });
+
+  obj.wait(500)
+  .then(function() {
+    console.log('------ 1');
+    return obj.animate({
+      x: 800,
+      y: 0,
+      duration: 1000
+    });
+
+  }).then(function() {
+    console.log('------ 2');
+    return obj.animate({
+      x: 800,
+      y: 500,
+      duration: 1000
+    });
+
+  }).then(function() {
+    console.log('------ 3');
+    return obj.wait(1000);
+
+  }).then(function() {
+    console.log('------ 4');
+    return obj.css({
+      x: 400,
+      y: 500
+    });
+
+  }).then(function() {
+    console.log('------ 5');
+    return $.when(
+      obj.animate({
+        x: 0,
+        duration: 500
+      }),
+      obj.animate({
+        y: 0,
+        duration: 1000
+      })
+    );
+
+  }).then(function() {
+    console.log('------ 6');
+    return obj.animate({
+      w: 10,
+      h: 10,
+      duration: 1000
+    });
+
+  }).then(function() {
+    obj.remove();
+  });
+
+</script>
+
+</body>
+</html>
