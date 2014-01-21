@@ -103,8 +103,8 @@
         var originalEvent = e;
       }
 
-      var pageX = this.canTouch ? originalEvent.changedTouches[0].pageX : originalEvent.pageX,
-          pageY = this.canTouch ? originalEvent.changedTouches[0].pageY : originalEvent.pageY;
+      var pageX = this.canTouch ? originalEvent.changedTouches[0].pageX : e.pageX,
+          pageY = this.canTouch ? originalEvent.changedTouches[0].pageY : e.pageY;
       
       switch (e.type) {
         case 'touchstart':
