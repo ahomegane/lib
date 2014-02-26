@@ -59,20 +59,22 @@ p {
     }
   });
 
+  var css = {
+    transform: 'scale(-1.0, -5.0)'
+  };
+
   $('.mouseover').addTransition({
     target: 'transform',
     time: 400,
     ease: 'ease-in',
     delay: 0
   })
-  .oneTransitionEnd('transform', function(){
+  .oneTransitionEnd(css, function(){
     console.log('one');
   });
 
   $('.mouseover').on('mouseenter', function() {
-    $(this).css({
-      transform: 'scale(-1.0, -5.0)'
-    });
+    $(this).css(css);
   });
 
   $('.mouseover').on('mouseleave', function() {

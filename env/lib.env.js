@@ -9,25 +9,37 @@
     var deviceType = {
       iphone:       false,
       android:      false,
+      android23:    false,
       windowsphone: false,
       ipad:         false,
       androidtab:   false,
       windows8:     false,
+      sp:           false,
+      tb:           false,
       pc:           false
     }
     
     if ((userAgent.indexOf('iphone') > -1 && userAgent.indexOf('ipad') == -1) || userAgent.indexOf('ipod') > -1) {
       deviceType.iphone = true; //iPhone&iPod
+      deviceType.sp = true;
+    } else if (userAgent.search(/android 2.[123]/) > -1 && userAgent.indexOf('mobile') > -1) {
+        deviceType.android23 = true; //AndroidMobile2.3以下// (一部のタブレット型アンドロイドを含む)
+        deviceType.sp = true;
     } else if (userAgent.indexOf('android') > -1 && userAgent.indexOf('mobile') > -1) {
       deviceType.android = true; //AndroidMobile(一部のタブレット型アンドロイドを含む)
+      deviceType.sp = true;
     } else if (userAgent.indexOf('windows phone') > -1) {
       deviceType.windowsphone = true; //WindowsPhone
+      deviceType.sp = true;    
     } else if (userAgent.indexOf('ipad') > -1) {
       deviceType.ipad = true; //iPad
+      deviceType.tb = true;
     } else if (userAgent.indexOf('android') > -1) {
       deviceType.androidtab = true; //AndroidTablet
+      deviceType.tb = true;
     } else if (/win(dows )?nt 6\.2/.test(userAgent)) {
       deviceType.windows8 = true; //windows8
+      deviceType.pc = true; //PC
     } else {
       deviceType.pc = true; //PC
     }
@@ -36,7 +48,6 @@
 
   _l.browser = (function () {
     var userAgent = window.navigator.userAgent.toLowerCase();
-    var ieVersion = +userAgent.replace(/^.*msie\s?(\d+?)\.?\d*?;.*$/, '$1');
     var browserType = {
       lteIe6:  false,
       lteIe7:  false,
@@ -56,24 +67,11 @@
       other:   false
     }
 
-    if (ieVersion < 7) {
-      browserType.lteIe6 = true;
-      browserType.lteIe7 = true;
-      browserType.lteIe8 = true;
-      browserType.lteIe9 = true;
-    } else if (ieVersion < 8) {
-      browserType.lteIe7 = true;
-      browserType.lteIe8 = true;
-      browserType.lteIe9 = true;
-    } else if (ieVersion < 9) {
-      browserType.lteIe8 = true;
-      browserType.lteIe9 = true;
-    } else if (ieVersion < 10) {
-      browserType.lteIe9 = true;
-    }
-
-    if (userAgent.indexOf('msie') > -1) {
+    if (userAgent.indexOf('msie') > -1 || userAgent.indexOf('trident') > -1) {
       browserType.ie = true;
+
+      var ieVersion = userAgent.match(/(msie\s|rv:)([\d\.]+)/)[2];
+      
       if (ieVersion == 6) {
         browserType.ie6 = true;
       } else if (ieVersion == 7) {
@@ -84,9 +82,28 @@
         browserType.ie9 = true;
       } else if (ieVersion == 10) {
         browserType.ie10 = true;
-      } else if (ieVersion > 10) {
-        browserType.gtIe10 = true;
+      } else if (ieVersion == 11) {
+        browserType.ie11 = true;
+      } else if (ieVersion > 11) {
+        browserType.gtIe11 = true;
       }
+
+      if (ieVersion < 7) {
+        browserType.lteIe6 = true;
+        browserType.lteIe7 = true;
+        browserType.lteIe8 = true;
+        browserType.lteIe9 = true;
+      } else if (ieVersion < 8) {
+        browserType.lteIe7 = true;
+        browserType.lteIe8 = true;
+        browserType.lteIe9 = true;
+      } else if (ieVersion < 9) {
+        browserType.lteIe8 = true;
+        browserType.lteIe9 = true;
+      } else if (ieVersion < 10) {
+        browserType.lteIe9 = true;
+      }
+
     } else if (userAgent.indexOf('firefox') > -1) {
       browserType.firefox = true;
     } else if (userAgent.indexOf('opera') > -1) {
@@ -117,11 +134,11 @@
     canTouch: 'ontouchstart' in window || 'onmspointerover' in window,
 
     transition: (function() {
+      if (_l.browser.ie) return false;
       var prop = [
         'webkitTransitionProperty',
         'MozTransitionProperty',
         'mozTransitionProperty',
-        'msTransitionProperty',
         'oTransitionProperty',
         'transitionProperty'
       ];

@@ -6,18 +6,11 @@
 
   var prefix = _l.prefix,
       prefixShort = prefix.replace(/\-/g, '');
-  
-  var fixProp = {
 
-        transitionEnd: (function() {
-          if (prefixShort == 'moz') return 'transitionend';
-          return prefixShort + 'TransitionEnd';
-        })()
+  var supportTransition = _l.support.transition;
 
-      };
-
-  /* transfrom */
-  ;(function(window, document, $, undefined) {
+  /* extend jquery : transfrom helper */
+  ;(function() {
 
     var extend = {
 
@@ -30,13 +23,21 @@
       }
 
     }
+
     $.extend($.fn, extend);
 
-  })(window, document, jQuery);
+  })();
 
-  /* transition */
-  ;(function(window, document, $, undefined) {
-  
+  /* extend jquery : transition helper */
+  ;(function() {
+
+    var fixProp = {
+      transitionEnd: (function() {
+        if (prefixShort == 'moz') return 'transitionend';
+        return prefixShort + 'TransitionEnd';
+      })()
+    };
+
     var util = {
 
       addPrefix: function(prop) {
@@ -62,7 +63,7 @@
 
     $.extend($, {
       isTransitionEndTarget: function(e, prop) {
-        var name = e.originalEvent.propertyName;        
+        var name = e.originalEvent.propertyName;      
         if (name == prop || name == prefix + prop) return true;
         return false;
       }
@@ -71,6 +72,7 @@
     var extend = {
 
       addTransition: function(options) {
+        if (! supportTransition) return this;
         options = options || {};                
         var target = options.target,
             css = options.css,
@@ -95,19 +97,20 @@
             value = value.replace(util.makeReg(target), '');
             value += util.addPrefix(target) + time + ease + delay;
           }
-        }
-
+        }        
+        
         this.css('transition', util.toHyphen(value));
 
         setTimeout($.proxy(function() {
           if (transitionEnd) this.on(fixProp.transitionEnd, transitionEnd);
           if (css) this.css(css);
-        }, this), 0);
+        }, this), 10);
 
         return this;
       },
 
       removeTransition: function(options) {
+        if (! supportTransition) return this;
         options = options || {};
         var target = options.target;
             css = options.css;
@@ -135,27 +138,47 @@
       },
 
       onTransitionEnd: function(callback) {
+        if (! supportTransition) return this;        
         this.on(fixProp.transitionEnd, callback);
         return this;
       },
 
       offTransitionEnd: function(callback) {
+        if (! supportTransition) return this;        
         this.off(fixProp.transitionEnd, callback);
         return this;
       },
 
-      oneTransitionEnd: function(prop, callback) {
+      oneTransitionEnd: function(css, callback) {
+        if (! supportTransition) return this;
         var one = function(e) {
           if (! $.isTransitionEndTarget(e, util.toHyphen(prop))) return;
           callback(e);
           $(this).offTransitionEnd(one);
         };
-        this.onTransitionEnd(one);
+
+        //cssの値に変化がない場合、transitionEndでコールバックが実行されないため、即実行
+        var prop, i = 0, isChangeCssValue = false;
+        for (var key in css) {
+          if (++i == 1) prop = key;
+          var reg = new RegExp('^' + css[key] + '(?:$|px$|%$)');
+          if (! reg.test(this.css(util.toHyphen(key)))) {
+            isChangeCssValue = true;
+            break;
+          }
+        }
+        if (! isChangeCssValue) {          
+          callback();
+        } else {
+          this.onTransitionEnd(one);
+        }
+        return this;        
       }
 
     };
 
     $.extend($.fn, extend);
 
-  })(window, document, jQuery);
+  })();
+
 })(window, document, jQuery);

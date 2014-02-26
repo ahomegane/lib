@@ -4,9 +4,10 @@
 
   window._l = window._l || {};
 
+  /* extend jquery : transition */
   var supportTransition = _l.support.transition;
 
-  ;(function(window, document, $, undefined) {
+  ;(function() {
 
     // jquery easing extend
     jQuery.extend( jQuery.easing, {
@@ -25,6 +26,18 @@
         return -c/2 * ((--t)*(t-2) - 1) + b;
       }
     });
+
+    var util = {
+
+      toCamel: function(hyphen) {
+        if (! hyphen) return hyphen;
+        var camel = hyphen.replace(/\-./g, function (matched) {
+            return matched.charAt(1).toUpperCase();
+        });
+        return camel;
+      }
+
+    }
 
     var extend = {
 
@@ -48,30 +61,26 @@
         var render = function() {
 
           if (supportTransition) {
-            var doAnimation = function() {
-
-              var prop, i = 0;
-              for (var key in css) {
-                if (++i > 1) break;
-                prop = key;
-              }
-
+            var doAnimation = function() {              
               var complete = function() {
                 if (callback) callback();
                 _this.dequeue();
               }
-
-              _this.addTransition({
+              _this
+              .removeTransition({
+                css: css
+              })
+              .addTransition({
                 css: css,
                 time: time,
                 ease: ease
               })
-              .oneTransitionEnd(prop, complete);
+              .oneTransitionEnd(css, complete);
             }
             return _this.queue('fx', doAnimation);
 
           } else {
-            return _this.animate(css, time, $.camelCase(ease), callback);
+            return _this.animate(css, time, util.toCamel(ease), callback);
           }
 
         }   
@@ -81,6 +90,6 @@
 
     $.extend($.fn, extend);
 
-  })(window, document, jQuery);
+  })();
 
 })(window, document, jQuery);
